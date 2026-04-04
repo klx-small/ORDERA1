@@ -90,7 +90,7 @@ button{font-family:inherit;cursor:pointer}
 .cat-chip:hover,.cat-chip.active{background:var(--deep);color:var(--white);border-color:var(--deep)}
 
 /* ── PRODUCT SECTIONS ── */
-.section-block{max-width:1200px;margin:24px auto;padding:0 24px}
+.section-block{max-width:1200px;margin:28px auto;padding:0 24px}
 .section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--sand)}
 .section-title{font-size:16px;font-weight:500;letter-spacing:2px;color:var(--deep);display:flex;align-items:center;gap:8px}
 .section-title::before{content:'';width:3px;height:16px;background:var(--accent);border-radius:1px}
@@ -158,7 +158,7 @@ button{font-family:inherit;cursor:pointer}
 .review-product{font-size:10px;color:var(--clay)}
 
 /* ── FOOTER ── */
-.store-footer{max-width:1200px;margin:48px auto 0;padding:36px 24px;border-top:1px solid var(--sand)}
+.store-footer{max-width:1200px;margin:40px auto 0;padding:36px 24px;border-top:1px solid var(--sand)}
 .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px}
 .footer-brand{font-family:'Noto Serif SC',serif;font-size:20px;font-weight:300;letter-spacing:6px;color:var(--deep);margin-bottom:4px}
 .footer-en{font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:3px;color:var(--clay);margin-bottom:12px}
@@ -167,6 +167,175 @@ button{font-family:inherit;cursor:pointer}
 .footer-col a{display:block;font-size:12px;color:var(--bark);line-height:2.2}
 .footer-col a:hover{color:var(--deep)}
 .footer-bottom{text-align:center;padding:20px 24px;font-size:11px;color:var(--clay);letter-spacing:1px}
+
+/* ── PRODUCT DETAIL MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(42,35,32,.55);z-index:200;display:none;align-items:center;justify-content:center;backdrop-filter:blur(3px)}
+.modal-overlay.show{display:flex}
+.modal-box{background:var(--white);border-radius:10px;max-width:860px;width:95%;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 24px 64px rgba(42,35,32,.2)}
+.modal-close{position:absolute;top:16px;right:18px;background:none;border:none;font-size:24px;color:var(--bark);z-index:10;cursor:pointer;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.modal-close:hover{background:var(--cream);color:var(--deep)}
+.modal-body{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.modal-imgs{background:var(--cream);padding:24px}
+.modal-main-img{width:100%;aspect-ratio:1;border-radius:6px;overflow:hidden;margin-bottom:12px;background:var(--sand)}
+.modal-main-img img{width:100%;height:100%;object-fit:cover}
+.modal-thumbs{display:flex;gap:8px}
+.modal-thumb{width:64px;height:64px;border-radius:4px;overflow:hidden;border:2px solid transparent;cursor:pointer;transition:border .2s}
+.modal-thumb.active{border-color:var(--accent)}
+.modal-thumb img{width:100%;height:100%;object-fit:cover}
+.modal-info{padding:28px 28px 24px}
+.modal-title{font-size:17px;font-weight:500;color:var(--deep);line-height:1.7;margin-bottom:12px}
+.modal-price-row{display:flex;align-items:baseline;gap:10px;margin-bottom:16px}
+.modal-price-row .now{font-size:28px;font-weight:700;color:var(--red)}
+.modal-price-row .was{font-size:14px;color:var(--clay);text-decoration:line-through}
+.modal-tags-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.modal-tag-item{font-size:11px;padding:4px 12px;border-radius:4px;background:rgba(196,168,130,.1);color:var(--accent);border:1px solid rgba(196,168,130,.3)}
+.modal-specs{margin-bottom:18px}
+.modal-spec-title{font-size:13px;font-weight:500;color:var(--deep);margin-bottom:8px}
+.modal-spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.modal-spec-item{font-size:12px;color:var(--bark);padding:6px 0;border-bottom:1px solid var(--cream)}
+.modal-spec-item span{color:var(--deep);font-weight:500}
+.modal-desc{font-size:13px;color:var(--bark);line-height:2;margin-bottom:20px}
+.modal-buy-row{display:flex;gap:12px}
+.modal-buy-btn{flex:1;padding:12px;border:none;border-radius:6px;font-size:14px;font-weight:500;letter-spacing:2px;cursor:pointer;transition:all .2s}
+.modal-buy-primary{background:var(--deep);color:var(--white)}
+.modal-buy-primary:hover{background:var(--accent)}
+.modal-buy-secondary{background:var(--cream);color:var(--deep);border:1px solid var(--sand)}
+.modal-buy-secondary:hover{border-color:var(--accent)}
+.modal-scene-label{font-size:10px;color:var(--clay);text-align:center;margin-top:4px;font-style:italic}
+@media(max-width:768px){.modal-body{grid-template-columns:1fr}}
+
+/* ── BRAND STORY ── */
+.brand-section{max-width:1200px;margin:36px auto;padding:0 24px}
+.brand-inner{background:var(--white);border:1px solid var(--sand);border-radius:6px;padding:60px 40px;text-align:center;position:relative;overflow:hidden}
+.brand-inner::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:1px;height:48px;background:linear-gradient(to bottom,transparent,var(--warm))}
+.brand-subtitle{font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:6px;color:var(--clay);text-transform:uppercase;margin-bottom:16px;margin-top:20px}
+.brand-title{font-family:'Noto Serif SC',serif;font-size:28px;font-weight:200;letter-spacing:8px;color:var(--deep);margin-bottom:10px}
+.brand-tagline{font-family:'Noto Serif SC',serif;font-size:14px;font-weight:300;color:var(--bark);letter-spacing:3px;margin-bottom:32px}
+.brand-divider{width:40px;height:1px;background:var(--warm);margin:0 auto 32px}
+.brand-text{max-width:580px;margin:0 auto;font-size:13.5px;color:var(--earth);line-height:2.4;font-weight:300;letter-spacing:.5px}
+.brand-text+.brand-text{margin-top:16px}
+.brand-values{display:flex;justify-content:center;gap:48px;margin-top:36px;padding-top:32px;border-top:1px solid var(--sand)}
+.brand-value{text-align:center}
+.brand-value-icon{font-size:24px;margin-bottom:8px;opacity:.85}
+.brand-value-text{font-size:11px;color:var(--bark);letter-spacing:2px;font-weight:400}
+.brand-ai-note{max-width:480px;margin:28px auto 0;font-size:11px;color:var(--clay);line-height:1.9;font-style:italic;padding-top:20px;border-top:1px dashed var(--sand)}
+@media(max-width:768px){.brand-inner{padding:40px 20px}.brand-values{gap:20px;flex-wrap:wrap}.brand-title{font-size:22px;letter-spacing:5px}}
+
+/* ── SHIPPING GUARANTEE ── */
+.guarantee-section{max-width:1200px;margin:28px auto;padding:0 24px}
+.guarantee-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.guarantee-card{background:var(--white);border:1px solid var(--sand);border-radius:8px;padding:24px 20px;text-align:center;transition:all .2s}
+.guarantee-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.guarantee-icon{font-size:32px;margin-bottom:12px}
+.guarantee-title{font-size:14px;font-weight:500;color:var(--deep);margin-bottom:6px;letter-spacing:1px}
+.guarantee-desc{font-size:12px;color:var(--bark);line-height:1.8}
+@media(max-width:768px){.guarantee-grid{grid-template-columns:1fr 1fr}}
+
+/* ── FAQ ── */
+.faq-section{max-width:1200px;margin:28px auto;padding:0 24px}
+.faq-list{display:flex;flex-direction:column;gap:10px}
+.faq-item{background:var(--white);border:1px solid var(--sand);border-radius:8px;overflow:hidden}
+.faq-q{padding:16px 20px;font-size:13px;font-weight:500;color:var(--deep);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .2s}
+.faq-q:hover{background:var(--cream)}
+.faq-q .faq-arrow{font-size:16px;color:var(--clay);transition:transform .3s}
+.faq-item.open .faq-arrow{transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.faq-item.open .faq-a{max-height:300px}
+.faq-a-inner{padding:0 20px 16px;font-size:12px;color:var(--bark);line-height:2}
+
+/* ── MEMBERSHIP ── */
+.member-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.member-card{border-radius:8px;padding:28px 24px;color:var(--white);position:relative;overflow:hidden;transition:transform .2s}
+.member-card:hover{transform:translateY(-3px)}
+.member-card::after{content:'';position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.08)}
+.member-tier{font-size:14px;font-weight:500;letter-spacing:2px;margin-bottom:10px}
+.member-require{font-size:11px;opacity:.75;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.15)}
+.member-perks{font-size:12px;line-height:2;opacity:.9}
+.member-silver{background:linear-gradient(135deg,var(--warm),var(--accent))}
+.member-gold{background:linear-gradient(135deg,var(--bark),var(--earth))}
+.member-black{background:linear-gradient(135deg,var(--deep),#1a1510);color:var(--sand)}
+@media(max-width:768px){.member-grid{grid-template-columns:1fr}}
+
+/* ── GUIDE ── */
+.guide-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.guide-card{background:var(--white);border:1px solid var(--sand);border-radius:8px;padding:24px;transition:all .2s;cursor:default}
+.guide-card:hover{border-color:var(--accent);box-shadow:0 4px 16px rgba(58,48,42,.06)}
+.guide-icon{font-size:20px;margin-bottom:10px}
+.guide-title{font-size:14px;font-weight:500;color:var(--deep);margin-bottom:10px;letter-spacing:1px}
+.guide-steps{font-size:12px;color:var(--bark);line-height:2.2}
+@media(max-width:768px){.guide-grid{grid-template-columns:1fr}}
+
+/* ── LIVESTREAM ── */
+.live-wrapper{background:var(--white);border:1px solid var(--sand);border-radius:8px;overflow:hidden}
+.live-top{display:flex;gap:0;align-items:stretch}
+.live-phone{flex-shrink:0;width:240px;padding:24px 20px 24px 24px;display:flex;align-items:center;justify-content:center;background:var(--cream)}
+.live-phone-frame{width:100%;border-radius:20px;overflow:hidden;background:#1a1510;box-shadow:0 8px 32px rgba(42,35,32,.18);position:relative;aspect-ratio:9/16}
+.live-phone-frame video{width:100%;height:100%;object-fit:cover;display:block}
+.live-video-poster{position:absolute;inset:0;background:linear-gradient(180deg,#2A2320 0%,#3A302A 50%,#2A2320 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .4s;cursor:pointer;border-radius:20px}
+.live-video-poster.hidden{opacity:0;pointer-events:none}
+.live-play-btn{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;transition:all .3s;backdrop-filter:blur(4px)}
+.live-phone-frame:hover .live-play-btn{background:rgba(196,168,130,.25);border-color:var(--accent);transform:scale(1.06)}
+.live-play-icon{width:0;height:0;border-style:solid;border-width:8px 0 8px 14px;border-color:transparent transparent transparent rgba(255,255,255,.85);margin-left:3px}
+.live-poster-label{color:rgba(255,255,255,.45);font-size:10px;margin-top:12px;letter-spacing:2px}
+.live-video-badge{position:absolute;top:12px;left:12px;display:flex;align-items:center;gap:5px;background:rgba(199,92,92,.9);padding:3px 10px;border-radius:3px;z-index:2}
+.live-video-badge-dot{width:5px;height:5px;border-radius:50%;background:var(--white);animation:livePulse 1.5s infinite}
+.live-video-badge-text{font-size:9px;font-weight:600;color:var(--white);letter-spacing:1px}
+@keyframes livePulse{0%,100%{opacity:1}50%{opacity:.3}}
+.live-video-tag{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);font-size:9px;color:rgba(255,255,255,.55);background:rgba(0,0,0,.35);padding:3px 10px;border-radius:3px;z-index:2;white-space:nowrap;backdrop-filter:blur(2px)}
+.live-side{flex:1;padding:32px 32px 28px;display:flex;flex-direction:column;justify-content:center}
+.live-title{font-size:18px;font-weight:500;color:var(--deep);margin-bottom:8px;letter-spacing:1px}
+.live-desc{font-size:12.5px;color:var(--bark);line-height:2.2;margin-bottom:14px}
+.live-time{font-size:12px;color:var(--accent);font-weight:500;margin-bottom:20px;display:flex;align-items:center;gap:6px}
+.live-btns{display:flex;gap:10px}
+.live-btn{padding:10px 24px;background:var(--deep);color:var(--white);border:none;border-radius:6px;font-size:12px;letter-spacing:2px;cursor:pointer;transition:all .2s}
+.live-btn:hover{background:var(--accent)}
+.live-btn-outline{padding:10px 24px;background:transparent;color:var(--bark);border:1px solid var(--warm);border-radius:6px;font-size:12px;letter-spacing:1px;cursor:pointer;transition:all .2s}
+.live-btn-outline:hover{border-color:var(--deep);color:var(--deep)}
+.live-features{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--sand)}
+.live-feature{padding:14px;text-align:center;border-right:1px solid var(--sand)}
+.live-feature:last-child{border-right:none}
+.live-feature-icon{font-size:18px;margin-bottom:4px}
+.live-feature-text{font-size:11px;color:var(--bark);letter-spacing:.5px}
+@media(max-width:768px){
+  .live-top{flex-direction:column}
+  .live-phone{width:100%;padding:20px;justify-content:center}
+  .live-phone-frame{width:180px;margin:0 auto}
+  .live-features{grid-template-columns:1fr 1fr}
+}
+
+/* ── WECHAT ENTRY ── */
+.wechat-bar{background:var(--white);border:1px solid var(--sand);border-radius:8px;padding:24px 32px;display:flex;align-items:center;gap:20px;transition:all .2s}
+.wechat-bar:hover{border-color:var(--accent)}
+.wechat-qr{width:80px;height:80px;background:var(--cream);border:1px solid var(--sand);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;color:var(--clay);text-align:center;line-height:1.4}
+.wechat-info{flex:1}
+.wechat-title{font-size:14px;font-weight:500;color:var(--deep);margin-bottom:6px;letter-spacing:1px}
+.wechat-desc{font-size:12px;color:var(--bark);line-height:1.9}
+.wechat-tags{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.wechat-tag{font-size:10px;padding:3px 10px;border-radius:12px;background:rgba(196,168,130,.1);color:var(--accent);border:1px solid rgba(196,168,130,.25)}
+@media(max-width:768px){.wechat-bar{flex-direction:column;text-align:center}}
+
+/* ── AI CHAT ── */
+.chat-window{position:fixed;bottom:84px;right:24px;width:340px;background:var(--white);border:1px solid var(--sand);border-radius:12px;box-shadow:0 12px 40px rgba(42,35,32,.15);z-index:100;display:none;flex-direction:column;overflow:hidden}
+.chat-window.show{display:flex}
+.chat-header{background:var(--deep);color:var(--white);padding:14px 18px;display:flex;align-items:center;gap:10px}
+.chat-avatar{width:36px;height:36px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:14px;font-family:'Noto Serif SC',serif;color:var(--white)}
+.chat-header-info h4{font-size:13px;font-weight:400;letter-spacing:1px;margin-bottom:2px}
+.chat-header-info span{font-size:10px;opacity:.7}
+.chat-header-close{margin-left:auto;background:none;border:none;color:var(--white);font-size:18px;cursor:pointer;opacity:.7}
+.chat-header-close:hover{opacity:1}
+.chat-messages{flex:1;padding:16px;overflow-y:auto;max-height:320px;display:flex;flex-direction:column;gap:12px;background:var(--bg)}
+.chat-msg{max-width:80%;font-size:12px;line-height:1.8;padding:10px 14px;border-radius:12px}
+.chat-msg.bot{align-self:flex-start;background:var(--white);color:var(--deep);border:1px solid var(--sand);border-bottom-left-radius:4px}
+.chat-msg.user{align-self:flex-end;background:var(--deep);color:var(--white);border-bottom-right-radius:4px}
+.chat-quick-btns{padding:8px 16px;display:flex;flex-wrap:wrap;gap:6px;background:var(--bg);border-top:1px solid var(--sand)}
+.chat-quick-btn{font-size:11px;padding:5px 12px;border-radius:14px;border:1px solid var(--warm);background:var(--white);color:var(--bark);cursor:pointer;transition:all .2s}
+.chat-quick-btn:hover{background:var(--deep);color:var(--white);border-color:var(--deep)}
+.chat-input-row{display:flex;border-top:1px solid var(--sand);padding:10px 12px;gap:8px;background:var(--white)}
+.chat-input-row input{flex:1;border:1px solid var(--sand);padding:8px 12px;border-radius:20px;font-size:12px;outline:none;background:var(--cream)}
+.chat-input-row input:focus{border-color:var(--accent)}
+.chat-input-row button{padding:8px 16px;background:var(--deep);color:var(--white);border:none;border-radius:20px;font-size:12px;cursor:pointer}
+.chat-input-row button:hover{background:var(--accent)}
+.chat-typing{align-self:flex-start;font-size:11px;color:var(--clay);padding:6px 14px}
 
 /* ── CHAT BUTTON ── */
 .chat-btn{position:fixed;bottom:24px;right:24px;width:52px;height:52px;border-radius:50%;background:var(--deep);color:var(--white);border:none;font-size:20px;box-shadow:0 4px 16px rgba(58,48,42,.2);z-index:80;transition:all .2s;display:flex;align-items:center;justify-content:center}
@@ -181,6 +350,7 @@ button{font-family:inherit;cursor:pointer}
   .store-actions{width:100%;justify-content:flex-end}
   .banner{grid-template-columns:1fr}
   .banner-side{flex-direction:row}
+  .banner-text h2{font-size:20px;letter-spacing:4px}
   .info-grid{grid-template-columns:1fr 1fr}
   .footer-grid{grid-template-columns:1fr 1fr}
   .nav-search{display:none}
@@ -190,8 +360,11 @@ button{font-family:inherit;cursor:pointer}
   .bundle-imgs{padding:12px}
   .bundle-img{width:70px;height:70px}
   .review-card{width:260px}
-  .section-block{padding:0 16px;margin:16px auto}
+  .section-block{padding:0 16px;margin:20px auto}
   .store-footer{padding:24px 16px}
+  .card-body{padding:10px 12px 12px}
+  .card-name{font-size:12px;min-height:36px}
+  .card-price b{font-size:18px}
 }
 </style>
 </head>
@@ -212,11 +385,12 @@ button{font-family:inherit;cursor:pointer}
         <span>全部商品 <b>26</b></span>
         <span>上新 <b>本周3款</b></span>
         <span>所在地 <b>四川 宜宾</b></span>
+        <span>📞 <b>15388120643</b></span>
       </div>
     </div>
     <div class="store-actions">
       <button class="btn-follow" id="followBtn" onclick="toggleFollow()">+ 关注店铺</button>
-      <button class="btn-outline" onclick="document.getElementById('chatTooltip').classList.toggle('show')">联系客服</button>
+      <button class="btn-outline" onclick="toggleChat()">联系客服</button>
     </div>
   </div>
 </div>
@@ -226,7 +400,7 @@ button{font-family:inherit;cursor:pointer}
   <div class="dsr-item">描述相符 <span class="dsr-score">4.9</span> <span class="dsr-arrow">↑</span></div>
   <div class="dsr-item">服务态度 <span class="dsr-score">4.9</span> <span class="dsr-arrow">↑</span></div>
   <div class="dsr-item">物流服务 <span class="dsr-score">4.8</span> <span class="dsr-arrow">↑</span></div>
-  <div class="dsr-item" style="margin-left:auto;font-size:11px;color:var(--clay)">创店时间 2026-04 · 四川宜宾发货 · 支持7天无理由</div>
+  <div class="dsr-item" style="margin-left:auto;font-size:11px;color:var(--clay)">创店时间 2026-04 · 四川宜宾发货 · 支持7天无理由 · 📞 15388120643</div>
 </div>
 
 <!-- NAV -->
@@ -237,6 +411,8 @@ button{font-family:inherit;cursor:pointer}
     <div class="nav-tab" onclick="switchTab(this,'new')">新品上架</div>
     <div class="nav-tab" onclick="switchTab(this,'hot')">人气榜单</div>
     <div class="nav-tab" onclick="switchTab(this,'bundle')">组合优惠</div>
+    <div class="nav-tab" onclick="switchTab(this,'brand');document.getElementById('brand').scrollIntoView({behavior:'smooth'})">品牌故事</div>
+    <div class="nav-tab" onclick="switchTab(this,'faq');document.getElementById('guarantee').scrollIntoView({behavior:'smooth'})">服务保障</div>
     <div class="nav-search">
       <input type="text" placeholder="在店铺内搜索" id="searchInput" onkeyup="searchProducts()">
       <button onclick="searchProducts()">搜索</button>
@@ -312,7 +488,7 @@ button{font-family:inherit;cursor:pointer}
   <div class="info-grid">
     <div class="info-card"><div class="info-icon">📦</div><div class="info-title">顺丰/菜鸟包邮</div><div class="info-desc">全国包邮（偏远地区除外）<br>48小时内发货</div></div>
     <div class="info-card"><div class="info-icon">↩️</div><div class="info-title">7天无理由退换</div><div class="info-desc">未使用可退<br>赠运费险安心购</div></div>
-    <div class="info-card"><div class="info-icon">💬</div><div class="info-title">AI客服秒回</div><div class="info-desc">24小时智能应答<br>人工客服9:00-22:00</div></div>
+    <div class="info-card"><div class="info-icon">💬</div><div class="info-title">AI客服秒回</div><div class="info-desc">24小时智能应答<br>人工客服9:00-22:00<br>📞 15388120643</div></div>
     <div class="info-card"><div class="info-icon">🎁</div><div class="info-title">会员积分</div><div class="info-desc">消费1元 = 1积分<br>100积分抵¥1</div></div>
   </div>
 </div>
@@ -361,36 +537,70 @@ button{font-family:inherit;cursor:pointer}
   <div class="review-strip" id="reviewStrip"></div>
 </div>
 
-<!-- BRAND STORY -->
-<div class="section-block" style="margin-top:32px">
-  <div style="background:var(--white);border:1px solid var(--sand);border-radius:4px;padding:48px 40px;text-align:center">
-    <div style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:5px;color:var(--clay);text-transform:uppercase;margin-bottom:12px">Our Story</div>
-    <div style="font-family:'Noto Serif SC',serif;font-size:24px;font-weight:200;letter-spacing:6px;color:var(--deep);margin-bottom:8px">归序 ORDERA</div>
-    <div style="font-family:'Noto Serif SC',serif;font-size:14px;font-weight:300;color:var(--bark);letter-spacing:2px;margin-bottom:24px">把散落的日子，重新排列。</div>
-    <div style="max-width:560px;margin:0 auto;font-size:13px;color:var(--earth);line-height:2.2;font-weight:300">
-      ORDERA 相信，真正的收纳从不是"藏起杂乱"，而是为生活留出呼吸的缝隙。我们偏爱克制的线条、温润的材质与恰到好处的尺寸，让每一件收纳件都成为空间的"标点符号"——不喧哗，却让日子有了清晰的节奏。
+<!-- MEMBERSHIP -->
+<div class="section-block">
+  <div class="section-head">
+    <div class="section-title">归序会员</div>
+    <span class="section-more">了解详情 ›</span>
+  </div>
+  <div class="member-grid">
+    <div class="member-card member-silver">
+      <div class="member-tier">🥈 银卡会员</div>
+      <div class="member-require">累计消费满 ¥200 自动升级</div>
+      <div class="member-perks">✓ 全场商品 9.5 折<br>✓ 生日月专属优惠券<br>✓ 优先客服响应</div>
+    </div>
+    <div class="member-card member-gold">
+      <div class="member-tier">🥇 金卡会员</div>
+      <div class="member-require">累计消费满 ¥500 自动升级</div>
+      <div class="member-perks">✓ 全场商品 9 折<br>✓ 新品优先体验权<br>✓ 每月专属福利盒子</div>
+    </div>
+    <div class="member-card member-black">
+      <div class="member-tier">🖤 黑卡会员</div>
+      <div class="member-require">累计消费满 ¥1000 自动升级</div>
+      <div class="member-perks">✓ 全场商品 8.5 折<br>✓ 限定款优先购买<br>✓ 全年免费退换货</div>
     </div>
   </div>
 </div>
 
-<!-- VIP MEMBERSHIP -->
+<!-- LIVESTREAM PREVIEW -->
 <div class="section-block">
   <div class="section-head">
-    <div class="section-title">归序会员</div>
-    <span class="section-more">查看详情 ›</span>
+    <div class="section-title">直播预告</div>
+    <span class="section-more">进入直播间 ›</span>
   </div>
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
-    <div style="background:linear-gradient(135deg,var(--warm),var(--accent));border-radius:6px;padding:24px;color:var(--white)">
-      <div style="font-size:13px;font-weight:500;margin-bottom:8px;letter-spacing:1px">银卡会员</div>
-      <div style="font-size:11px;line-height:1.8;opacity:.9">累计消费满 ¥200<br>享全场 9.5 折<br>生日月专属优惠</div>
+  <div class="live-wrapper">
+    <div class="live-top">
+      <div class="live-phone">
+        <div class="live-phone-frame" onclick="playLiveVideo()">
+          <video id="liveVideo" loop muted playsinline preload="none"
+            src="数字人.mp4">
+          </video>
+          <div class="live-video-poster" id="livePoster">
+            <div class="live-play-btn"><div class="live-play-icon"></div></div>
+            <div class="live-poster-label">点击预览</div>
+          </div>
+          <div class="live-video-badge">
+            <div class="live-video-badge-dot"></div>
+            <div class="live-video-badge-text">LIVE</div>
+          </div>
+          <div class="live-video-tag">Seedance 2.0 · AI数字人</div>
+        </div>
+      </div>
+      <div class="live-side">
+        <div class="live-title">「归序」AI数字人直播间</div>
+        <div class="live-desc">每晚为你精选收纳好物，AI主播实时讲解产品亮点与使用场景。直播间下单享专属折扣价，不定时掉落限量优惠券。<br><br>由 Seedance 2.0 提供AI数字人直播技术支持，24小时可回放往期精彩片段。</div>
+        <div class="live-time">⏰ 每晚 20:00 - 22:00 准时开播</div>
+        <div class="live-btns">
+          <button class="live-btn" onclick="this.textContent='已预约 ✓';this.style.background='var(--warm)';this.style.color='var(--deep)'">预约直播</button>
+          <button class="live-btn-outline" onclick="toggleChat()">咨询客服</button>
+        </div>
+      </div>
     </div>
-    <div style="background:linear-gradient(135deg,var(--bark),var(--earth));border-radius:6px;padding:24px;color:var(--white)">
-      <div style="font-size:13px;font-weight:500;margin-bottom:8px;letter-spacing:1px">金卡会员</div>
-      <div style="font-size:11px;line-height:1.8;opacity:.9">累计消费满 ¥500<br>享全场 9 折<br>新品优先体验权</div>
-    </div>
-    <div style="background:linear-gradient(135deg,var(--deep),#1a1510);border-radius:6px;padding:24px;color:var(--sand)">
-      <div style="font-size:13px;font-weight:500;margin-bottom:8px;letter-spacing:1px">黑卡会员</div>
-      <div style="font-size:11px;line-height:1.8;opacity:.9">累计消费满 ¥1000<br>享全场 8.5 折<br>限定款优先购买</div>
+    <div class="live-features">
+      <div class="live-feature"><div class="live-feature-icon">🎯</div><div class="live-feature-text">每晚精选好物</div></div>
+      <div class="live-feature"><div class="live-feature-icon">💰</div><div class="live-feature-text">直播专属价</div></div>
+      <div class="live-feature"><div class="live-feature-icon">🤖</div><div class="live-feature-text">AI主播答疑</div></div>
+      <div class="live-feature"><div class="live-feature-icon">🎁</div><div class="live-feature-text">整点抽免单</div></div>
     </div>
   </div>
 </div>
@@ -399,24 +609,188 @@ button{font-family:inherit;cursor:pointer}
 <div class="section-block">
   <div class="section-head">
     <div class="section-title">收纳指南 · 生活灵感</div>
+    <span class="section-more">更多攻略 ›</span>
   </div>
-  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px">
-    <div style="background:var(--white);border:1px solid var(--sand);border-radius:6px;padding:24px">
-      <div style="font-size:14px;font-weight:500;color:var(--deep);margin-bottom:8px">📖 书桌整理三步法</div>
-      <div style="font-size:12px;color:var(--bark);line-height:2">1. 清空桌面，按使用频率分类<br>2. 常用物品放置在一臂之内<br>3. 用收纳盒固定每件物品的「位置」</div>
+  <div class="guide-grid">
+    <div class="guide-card">
+      <div class="guide-icon">📖</div>
+      <div class="guide-title">书桌整理三步法</div>
+      <div class="guide-steps">① 清空桌面，按使用频率分类<br>② 常用物品放置在一臂之内<br>③ 用收纳盒固定每件物品的「位置」</div>
     </div>
-    <div style="background:var(--white);border:1px solid var(--sand);border-radius:6px;padding:24px">
-      <div style="font-size:14px;font-weight:500;color:var(--deep);margin-bottom:8px">🧳 出差打包清单</div>
-      <div style="font-size:12px;color:var(--bark);line-height:2">1. 洗护分装：行旅套装 × 1<br>2. 内衣收纳：云栖收纳包 × 1<br>3. 随身小物：统一放入透明袋</div>
+    <div class="guide-card">
+      <div class="guide-icon">🧳</div>
+      <div class="guide-title">出差打包清单</div>
+      <div class="guide-steps">① 洗护分装：行旅套装 × 1<br>② 内衣收纳：云栖收纳包 × 1<br>③ 随身小物：统一放入透明袋</div>
     </div>
-    <div style="background:var(--white);border:1px solid var(--sand);border-radius:6px;padding:24px">
-      <div style="font-size:14px;font-weight:500;color:var(--deep);margin-bottom:8px">💄 化妆台断舍离</div>
-      <div style="font-size:12px;color:var(--bark);line-height:2">1. 过期产品果断丢弃<br>2. 旋转收纳架按品类分层<br>3. 首饰盒让项链不再打结</div>
+    <div class="guide-card">
+      <div class="guide-icon">💄</div>
+      <div class="guide-title">化妆台断舍离</div>
+      <div class="guide-steps">① 过期产品果断丢弃<br>② 旋转收纳架按品类分层<br>③ 首饰盒让项链不再打结</div>
     </div>
-    <div style="background:var(--white);border:1px solid var(--sand);border-radius:6px;padding:24px">
-      <div style="font-size:14px;font-weight:500;color:var(--deep);margin-bottom:8px">👟 鞋柜扩容术</div>
-      <div style="font-size:12px;color:var(--bark);line-height:2">1. 省空间鞋架让容量翻倍<br>2. 当季鞋放取用方便的位置<br>3. 非当季鞋收入收纳盒</div>
+    <div class="guide-card">
+      <div class="guide-icon">👟</div>
+      <div class="guide-title">鞋柜扩容术</div>
+      <div class="guide-steps">① 省空间鞋架让容量翻倍<br>② 当季鞋放取用方便的位置<br>③ 非当季鞋收入收纳盒</div>
     </div>
+  </div>
+</div>
+
+<!-- WECHAT PRIVATE DOMAIN -->
+<div class="section-block">
+  <div class="section-head">
+    <div class="section-title">加入归序私域</div>
+  </div>
+  <div class="wechat-bar">
+    <div class="wechat-qr"><img src="data:image/png;base64,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" alt="归序微信二维码" style="width:100%;height:100%;object-fit:contain;border-radius:4px"></div>
+    <div class="wechat-info">
+      <div class="wechat-title">添加归序微信，解锁专属福利</div>
+      <div class="wechat-desc">加好友即享 ¥5 无门槛券 · 每周新品抢先看 · 老客专属折扣通知 · 收纳技巧分享群</div>
+      <div class="wechat-tags">
+        <span class="wechat-tag">新人立减¥5</span>
+        <span class="wechat-tag">每周新品预告</span>
+        <span class="wechat-tag">专属折扣</span>
+        <span class="wechat-tag">收纳灵感群</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BRAND STORY -->
+<div class="brand-section" id="brand">
+  <div class="brand-inner">
+    <div class="brand-subtitle">Our Story</div>
+    <div class="brand-title">归序 &nbsp; ORDERA</div>
+    <div class="brand-tagline">把散落的日子，重新排列。</div>
+    <div class="brand-divider"></div>
+    <div class="brand-text">
+      ORDERA 相信，真正的收纳从不是"藏起杂乱"，而是为生活留出呼吸的缝隙。我们偏爱克制的线条、温润的材质与恰到好处的尺寸，让每一件收纳件都成为空间的"标点符号"——不喧哗，却让日子有了清晰的节奏。
+    </div>
+    <div class="brand-text">
+      我们从1688精选优质供应链，用AI场景化设计呈现每一件产品在你生活中的样子——不是卖收纳盒，而是帮你看见理想生活的模样。
+    </div>
+    <div class="brand-values">
+      <div class="brand-value"><div class="brand-value-icon">🎋</div><div class="brand-value-text">自然美学</div></div>
+      <div class="brand-value"><div class="brand-value-icon">✨</div><div class="brand-value-text">品质优选</div></div>
+      <div class="brand-value"><div class="brand-value-icon">🔄</div><div class="brand-value-text">一物多用</div></div>
+      <div class="brand-value"><div class="brand-value-icon">💚</div><div class="brand-value-text">环保材质</div></div>
+    </div>
+    <div class="brand-ai-note">* 本店所有场景展示图、文案及视频均由AI工具生成（即梦 / 通义千问 / Seedance 2.0），实际商品请以详情页实拍图为准。</div>
+  </div>
+</div>
+
+<!-- SHIPPING GUARANTEE -->
+<div class="guarantee-section" id="guarantee">
+  <div class="section-head">
+    <div class="section-title">服务保障</div>
+  </div>
+  <div class="guarantee-grid">
+    <div class="guarantee-card">
+      <div class="guarantee-icon">📦</div>
+      <div class="guarantee-title">全场包邮</div>
+      <div class="guarantee-desc">全国包邮（港澳台及偏远地区除外），下单即享免运费服务</div>
+    </div>
+    <div class="guarantee-card">
+      <div class="guarantee-icon">⚡</div>
+      <div class="guarantee-title">24-48h发货</div>
+      <div class="guarantee-desc">工作日下单，24-48小时内由1688合作仓库直接发货</div>
+    </div>
+    <div class="guarantee-card">
+      <div class="guarantee-icon">🔄</div>
+      <div class="guarantee-title">7天无理由</div>
+      <div class="guarantee-desc">收到商品7天内，不影响二次销售可申请无理由退换货</div>
+    </div>
+    <div class="guarantee-card">
+      <div class="guarantee-icon">🛡️</div>
+      <div class="guarantee-title">运费险保障</div>
+      <div class="guarantee-desc">全店商品均已开通运费险，退货运费无需您承担</div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="faq-section" id="faq">
+  <div class="section-head">
+    <div class="section-title">常见问题</div>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">场景图和实物有色差怎么办？<span class="faq-arrow">▼</span></div>
+      <div class="faq-a"><div class="faq-a-inner">我们的产品场景图由AI生成，标注有"效果展示"字样，仅供参考。商品详情页中均附有实拍图和精确尺寸标注，请以实拍图为准。如收到商品存在严重色差，可在7天内申请退换货。</div></div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">发货时效和物流方式？<span class="faq-arrow">▼</span></div>
+      <div class="faq-a"><div class="faq-a-inner">我们合作的供应商支持24-48小时内发货，使用菜鸟/中通等主流快递，全国范围内3-5天可达。下单后可在"我的订单"中实时查看物流状态。</div></div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">如何申请退换货？<span class="faq-arrow">▼</span></div>
+      <div class="faq-a"><div class="faq-a-inner">收到商品7天内，保持商品完好且不影响二次销售的情况下，可通过订单页面申请退换货。我们已为所有商品开通运费险，退货运费由保险承担，您无需额外支付。申请后48小时内完成审核处理。</div></div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">组合套装可以单独更换其中一件吗？<span class="faq-arrow">▼</span></div>
+      <div class="faq-a"><div class="faq-a-inner">组合套装暂不支持拆分购买或单件更换。如需单品，可在"全部商品"中分别选购。组合套装的优惠价格仅在整套购买时生效。</div></div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">可以开发票吗？<span class="faq-arrow">▼</span></div>
+      <div class="faq-a"><div class="faq-a-inner">可以开具电子普通发票。下单时在备注中注明开票需求和发票抬头信息，我们将在发货后3个工作日内发送至您的邮箱。</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT DETAIL MODAL -->
+<div class="modal-overlay" id="productModal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-body">
+      <div class="modal-imgs">
+        <div class="modal-main-img"><img id="modalMainImg" src="" alt=""></div>
+        <div class="modal-thumbs" id="modalThumbs"></div>
+        <div class="modal-scene-label">* 场景图为AI生成效果展示，请以实物为准</div>
+      </div>
+      <div class="modal-info">
+        <div class="modal-title" id="modalTitle"></div>
+        <div class="modal-price-row">
+          <span class="now" id="modalPrice"></span>
+          <span class="was" id="modalOrig"></span>
+        </div>
+        <div class="modal-tags-row" id="modalTags"></div>
+        <div class="modal-specs">
+          <div class="modal-spec-title">商品参数</div>
+          <div class="modal-spec-grid" id="modalSpecs"></div>
+        </div>
+        <div class="modal-desc" id="modalDesc"></div>
+        <div class="modal-buy-row">
+          <button class="modal-buy-btn modal-buy-primary">立即购买</button>
+          <button class="modal-buy-btn modal-buy-secondary">加入购物车</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AI CHAT WINDOW -->
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    <div class="chat-avatar">序</div>
+    <div class="chat-header-info">
+      <h4>归序·AI客服</h4>
+      <span>由通义千问提供智能支持</span>
+    </div>
+    <button class="chat-header-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-msg bot">您好！我是归序AI客服小序 🍃 有什么可以帮您的吗？可以点击下方常见问题快速咨询~</div>
+  </div>
+  <div class="chat-quick-btns">
+    <div class="chat-quick-btn" onclick="quickChat('尺寸怎么选？')">尺寸怎么选</div>
+    <div class="chat-quick-btn" onclick="quickChat('发货时效？')">发货时效</div>
+    <div class="chat-quick-btn" onclick="quickChat('怎么退换货？')">退换货</div>
+    <div class="chat-quick-btn" onclick="quickChat('有优惠活动吗？')">优惠活动</div>
+    <div class="chat-quick-btn" onclick="quickChat('怎么加微信？')">加微信</div>
+    <div class="chat-quick-btn" onclick="quickChat('直播什么时候？')">直播时间</div>
+  </div>
+  <div class="chat-input-row">
+    <input type="text" id="chatInput" placeholder="输入您的问题..." onkeyup="if(event.key==='Enter')sendChat()">
+    <button onclick="sendChat()">发送</button>
   </div>
 </div>
 
@@ -426,30 +800,30 @@ button{font-family:inherit;cursor:pointer}
     <div>
       <div class="footer-brand">归序</div>
       <div class="footer-en">O R D E R A</div>
-      <div class="footer-desc">有序，是日常的浪漫。<br>在琐碎中建立秩序，在秩序里重拾自由。</div>
+      <div class="footer-desc">有序，是日常的浪漫。<br>在琐碎中建立秩序，在秩序里重拾自由。<br><br><span style="font-size:10px;color:var(--clay)">* 本店所有场景展示图、文案及视频均由AI工具生成<br>（即梦/通义千问/豆包/Seedance 2.0）<br>实际商品请以详情页实拍图为准</span></div>
     </div>
     <div class="footer-col">
       <h4>商品分类</h4>
-      <a href="#">桌面收纳</a><a href="#">卧室收纳</a><a href="#">旅行收纳</a><a href="#">厨房收纳</a><a href="#">组合套装</a>
+      <a href="#products">桌面收纳</a><a href="#products">卧室收纳</a><a href="#products">旅行收纳</a><a href="#products">厨房收纳</a><a href="#products">组合套装</a>
     </div>
     <div class="footer-col">
       <h4>顾客服务</h4>
-      <a href="#">尺寸指南</a><a href="#">配送说明</a><a href="#">退换政策</a><a href="#">发票开具</a>
+      <a href="#guarantee">全场包邮</a><a href="#guarantee">24-48h发货</a><a href="#guarantee">7天无理由</a><a href="#faq">常见问题</a><a href="javascript:toggleChat()">AI客服</a>
     </div>
     <div class="footer-col">
       <h4>关于归序</h4>
-      <a href="#">品牌故事</a><a href="#">设计理念</a><a href="#">联系我们</a><a href="#">加入我们</a>
+      <a href="#brand">品牌故事</a><a href="#">加微信领券</a><a href="#">小红书关注</a><a href="javascript:toggleChat()">AI客服咨询</a><a href="tel:15388120643">📞 15388120643</a>
     </div>
   </div>
 </div>
-<div class="footer-bottom">© 2026 归序 ORDERA · 李诗宇 & 罗媛媛 · 有序，是日常的浪漫</div>
+<div class="footer-bottom">© 2026 归序 ORDERA · 李诗宇 & 罗媛媛 · 有序，是日常的浪漫 · 📞 15388120643</div>
 
 <!-- CHAT BUTTON -->
 <div class="chat-tooltip" id="chatTooltip">
-  <div style="font-weight:500;margin-bottom:4px">归序客服在线</div>
-  <div style="font-size:11px;color:var(--bark)">人工客服 9:00-22:00<br>AI客服 24小时应答<br>平均响应 < 30秒</div>
+  <div style="font-weight:500;margin-bottom:4px">归序·AI客服在线 🍃</div>
+  <div style="font-size:11px;color:var(--bark)">AI客服24小时智能应答<br>人工客服 9:00-22:00<br>📞 15388120643</div>
 </div>
-<button class="chat-btn" onclick="document.getElementById('chatTooltip').classList.toggle('show')">💬</button>
+<button class="chat-btn" onclick="toggleChat()">💬</button>
 
 <script>
 // ── DATA ──
@@ -481,11 +855,17 @@ const reviews = [
   {user:"是七***",stars:5,text:"被朋友圈种草来的，化妆台终于不乱了。旋转设计太方便了，口红色号一目了然。材质摸起来很温润，不是那种廉价塑料感。会回购其他款。",product:"拾光·化妆台收纳架",date:"2026-03-25"},
   {user:"麦兜***",stars:5,text:"抽屉分隔板绝了，自由组合的设计很灵活。我的袜子抽屉终于不再一团乱了，强迫症极度舒适。已经加购了第二套给厨房抽屉用。",product:"小憩·抽屉分隔板",date:"2026-03-20"},
   {user:"温柔***",stars:4,text:"数据线收纳盒设计得很巧妙，线从小孔穿出来，桌面干净了很多。唯一建议是孔位可以再多两个，我的线比较多。总体很满意。",product:"清欢·数据线收纳盒",date:"2026-03-18"},
+  {user:"今天***",stars:5,text:"厨房调料架真的太实用了！不锈钢材质很有质感，两层刚好够用。底部防滑垫很贴心，放在台面上稳稳当当。推荐给所有做饭的朋友！",product:"留白·厨房调料架",date:"2026-03-15"},
+  {user:"棉花***",stars:5,text:"给宿舍买的收纳盒，室友都夸好看！颜色是很温柔的奶白色，三个格子大小正合适，笔筒那格特别方便。已经推荐给好几个同学了～",product:"静谧·桌面收纳盒",date:"2026-03-12"},
+  {user:"阿猫***",stars:5,text:"床头挂袋太方便了，睡前放手机、眼镜、遥控器，一伸手就能拿到。毛毡材质不会刮到家具，魔术贴固定也很牢固。好评！",product:"安栖·床头挂袋",date:"2026-03-08"},
+  {user:"收纳***",stars:5,text:"冰箱侧挂架磁吸力很强，挂上去纹丝不动。三层设计放保鲜膜、厨房纸巾、调料刚刚好，厨房台面终于清爽了。白色烤漆颜值在线！",product:"拾简·冰箱侧挂架",date:"2026-03-05"},
+  {user:"小橘***",stars:5,text:"鞋架省空间真不是说说的，原本放6双的鞋柜现在能放18双！PP材质轻便但稳固，通风设计也不怕闷脚。回购第二套中～",product:"素履·鞋柜收纳架",date:"2026-03-01"},
+  {user:"椰子***",stars:4,text:"衣柜收纳格折叠后真的很薄，不占地方。钢丝骨架撑起来后很稳不会塌。美中不足是拉链有点紧，需要两手配合。总体推荐！",product:"归一·衣柜收纳格",date:"2026-02-26"},
 ];
 
 // ── RENDER ──
 function renderCard(p) {
-  return `<div class="card" data-cat="${p.cat}" data-name="${p.name}">
+  return `<div class="card" data-cat="${p.cat}" data-name="${p.name}" onclick="openModal(${p.id})" style="cursor:pointer">
     <div class="card-img">
       <img src="${IMG[p.id]}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover">
       <div class="card-tags">
@@ -589,6 +969,99 @@ function toggleFollow() {
     btn.style.color = 'var(--white)';
     fans.textContent = '2,847';
   }
+}
+
+// ── LIVESTREAM VIDEO ──
+function playLiveVideo(){
+  const video=document.getElementById('liveVideo');
+  const poster=document.getElementById('livePoster');
+  if(video.paused){
+    video.play();
+    poster.classList.add('hidden');
+  }else{
+    video.pause();
+    poster.classList.remove('hidden');
+  }
+}
+
+// ── FAQ ──
+function toggleFaq(el){el.classList.toggle('open')}
+
+// ── CHAT ──
+let chatOpen=false;
+function toggleChat(){
+  chatOpen=!chatOpen;
+  document.getElementById('chatWindow').classList.toggle('show',chatOpen);
+  document.getElementById('chatTooltip').classList.remove('show');
+}
+const chatReplies={
+  '尺寸怎么选？':'建议您参考商品详情页中的精确尺寸标注和场景对比图哦！我们标注了每款产品的长×宽×高，并配有与常见物品（如手机、书本）的对比图，方便您判断大小是否合适 📐',
+  '发货时效？':'我们的供应商支持24-48小时内发货，使用菜鸟/中通等主流快递，全国3-5天可达哦！您下单后可在订单页实时追踪物流 🚚',
+  '怎么退换货？':'收到商品7天内可申请无理由退换货！全店已开通运费险，退货运费不用您出 👍 在订单页点击"申请退货"即可，48小时内审核完成~',
+  '有优惠活动吗？':'目前有以下优惠：\n🎫 满39减5、满79减10、满149减20\n🛒 组合套装额外省¥10-20\n✨ 新品立减¥5-10\n关注店铺还可领取专属优惠券哦~',
+  '怎么加微信？':'添加归序微信好友即可加入私域社群 🍃\n🎁 加好友立领¥5无门槛券\n📦 每周新品抢先看\n💰 老客专属折扣通知\n💡 收纳技巧灵感分享\n在页面下方"加入归序私域"板块可以找到添加入口哦~',
+  '直播什么时候？':'归序AI数字人直播间每晚 20:00-22:00 准时开播 📺\n✅ 收纳好物推荐\n✅ 直播间专属折扣\n✅ AI主播在线答疑\n由 Seedance 2.0 提供技术支持，欢迎来直播间坐坐~',
+};
+function quickChat(q){
+  addChatMsg(q,'user');
+  setTimeout(()=>{addChatMsg(chatReplies[q]||'感谢您的提问！我正在为您查询，请稍等片刻...','bot')},800);
+}
+function sendChat(){
+  const input=document.getElementById('chatInput');
+  const msg=input.value.trim();
+  if(!msg)return;
+  addChatMsg(msg,'user');
+  input.value='';
+  setTimeout(()=>{addChatMsg('感谢您的咨询！您的问题我已记录，客服会在工作时间（9:00-22:00）尽快回复您 💬 您也可以拨打店铺电话 📞 15388120643 联系我们~','bot')},1000);
+}
+function addChatMsg(text,type){
+  const box=document.getElementById('chatMessages');
+  const div=document.createElement('div');
+  div.className='chat-msg '+type;
+  div.textContent=text;
+  box.appendChild(div);
+  box.scrollTop=box.scrollHeight;
+}
+
+// ── PRODUCT MODAL ──
+const productDetails={
+  1:{desc:'三格分区设计，书桌整理必备。上层放置常用文具，中层收纳手机/充电器，下层存放杂物小件。采用优质PP材质，圆角打磨不伤手。',specs:{材质:'优质PP',尺寸:'22×10×12cm',颜色:'奶白/燕麦',重量:'约280g',产地:'浙江义乌',工艺:'注塑一体成型'}},
+  2:{desc:'360°旋转设计，口红、眼影、粉底一目了然。三层可拆卸托盘，灵活调节高度。亚克力材质通透美观，搭配莫兰迪配色融入任何梳妆风格。',specs:{材质:'亚克力',尺寸:'直径20×高32cm',颜色:'透明/奶茶色',重量:'约450g',容量:'可收纳40+支口红',工艺:'激光切割'}},
+  3:{desc:'6件套旅行分装组合，30ml×2+50ml×2+乳液瓶×1+面霜盒×1。食品级硅胶密封圈，防漏设计通过倒置24h测试。附赠透明收纳袋一个。',specs:{材质:'PET+硅胶密封',尺寸:'收纳袋18×22cm',颜色:'透明',重量:'约120g',容量:'30ml×2/50ml×2',工艺:'一体注塑'}},
+  4:{desc:'可折叠收纳格，不用时折平仅占3cm厚度。内置钢丝骨架定型不塌。适用于换季衣物、被褥、毛衣等大件收纳。双提手方便搬运。',specs:{材质:'牛津布+钢丝骨架',尺寸:'展开50×30×28cm',颜色:'灰色/米色',重量:'约350g',容量:'约42L',工艺:'车缝+热压'}},
+  5:{desc:'304不锈钢双层置物架，厨房台面调料收纳好帮手。防锈耐腐蚀，承重力强。底部防滑硅胶垫保护台面。免打孔设计即放即用。',specs:{材质:'304不锈钢',尺寸:'40×20×35cm',颜色:'银色',重量:'约800g',承重:'每层5kg',工艺:'拉丝抛光'}},
+  6:{desc:'桌下隐藏式数据线收纳盒，6孔走线设计。3M背胶粘贴免打孔安装。内部空间宽敞可容纳排插+多根线缆。打开桌面瞬间清爽。',specs:{材质:'ABS环保材质',尺寸:'30×12×10cm',颜色:'奶白/灰色',重量:'约180g',孔位:'6个走线孔',工艺:'超声波焊接'}},
+  7:{desc:'床头挂袋收纳篮，多口袋设计。手机、遥控器、眼镜、纸巾各有归处。加厚毛毡材质柔软不刮家具。魔术贴固定适配各种床架。',specs:{材质:'加厚毛毡',尺寸:'30×25cm',颜色:'灰色/深蓝',重量:'约150g',口袋数:'5个',工艺:'激光裁切'}},
+  8:{desc:'自由组合抽屉分隔板，4片装可随意拼接。根据抽屉尺寸DIY分区方案。PP材质轻便耐用，可水洗。告别袜子内衣乱成一团的烦恼。',specs:{材质:'PP环保材质',尺寸:'单片34×7cm',颜色:'透明/白',重量:'每片约30g',可调节:'自由切割',工艺:'注塑成型'}},
+  9:{desc:'多层首饰收纳盒，绒布内衬呵护每一件饰品。三层翻盖设计，项链、耳环、戒指、手链分类存放不缠绕。磁吸扣开合优雅方便。',specs:{材质:'PU皮+绒布内衬',尺寸:'18×12×14cm',颜色:'奶白/藕粉',重量:'约320g',层数:'3层',工艺:'手工车缝'}},
+  10:{desc:'旅行内衣收纳包，防水面料防泼溅。三格分区设计，内衣、内裤、袜子独立存放。双拉链开合，内置网袋收纳细小物品。',specs:{材质:'防水尼龙',尺寸:'28×16×12cm',颜色:'灰色/粉色',重量:'约100g',分格:'3格',工艺:'防水压胶'}},
+  11:{desc:'冰箱侧挂架，强力磁吸免打孔。适配各品牌冰箱侧面。三层设计可收纳保鲜膜、调料瓶、厨房纸巾。碳钢材质承重强不脱落。',specs:{材质:'碳钢+磁吸片',尺寸:'28×10×42cm',颜色:'白色',重量:'约600g',承重:'每层3kg',工艺:'烤漆处理'}},
+  12:{desc:'可叠加鞋架，3层省空间设计。一双鞋位变三双鞋位。PP材质轻便稳固，通风透气不闷脚。适合玄关、衣柜内使用。',specs:{材质:'PP材质',尺寸:'单层26×10×17cm',颜色:'白色/灰色',重量:'每层约100g',层数:'3层可叠',工艺:'卡扣拼接'}},
+};
+function openModal(id){
+  const p=products.find(x=>x.id===id);
+  const d=productDetails[id];
+  if(!p||!d)return;
+  document.getElementById('modalTitle').textContent=p.name;
+  document.getElementById('modalPrice').textContent='¥'+p.price;
+  document.getElementById('modalOrig').textContent='¥'+p.orig;
+  document.getElementById('modalMainImg').src=IMG[id];
+  document.getElementById('modalThumbs').innerHTML='<div class="modal-thumb active"><img src="'+IMG[id]+'" onclick="document.getElementById(\'modalMainImg\').src=this.src"></div>';
+  const tags=[...p.ship];
+  if(p.promo)tags.push(p.promo);
+  tags.push('7天无理由');
+  tags.push('运费险');
+  document.getElementById('modalTags').innerHTML=tags.map(t=>'<span class="modal-tag-item">'+t+'</span>').join('');
+  let specHtml='';
+  for(const[k,v]of Object.entries(d.specs))specHtml+='<div class="modal-spec-item"><span>'+k+'：</span>'+v+'</div>';
+  document.getElementById('modalSpecs').innerHTML=specHtml;
+  document.getElementById('modalDesc').textContent=d.desc;
+  document.getElementById('productModal').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('productModal').classList.remove('show');
+  document.body.style.overflow='';
 }
 
 // Show chat tooltip briefly on load
