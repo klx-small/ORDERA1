@@ -1360,92 +1360,109 @@ window.addEventListener('scroll', function(){
 })();
 </script>
 
-<!-- ═══ Coze AI 客服 ═══ -->
-<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.1/libs/cn/index.js"></script>
+<!-- Coze AI Chat -->
+<style>
+.coze-float-btn{position:fixed;bottom:24px;right:24px;width:52px;height:52px;border-radius:50%;background:#3A302A;color:#FDFBF8;border:none;font-size:20px;box-shadow:0 4px 16px rgba(58,48,42,.25);z-index:999;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.coze-float-btn:hover{background:#C4A882;transform:scale(1.05)}
+.coze-float-btn.sdk-ready{display:none}
+.coze-chat-frame{position:fixed;bottom:88px;right:24px;width:390px;height:600px;max-width:calc(100vw - 48px);max-height:calc(100vh - 120px);border-radius:16px;overflow:hidden;box-shadow:0 16px 48px rgba(42,35,32,.22);z-index:1000;display:none;background:#fff;border:1px solid #E8DFD4}
+.coze-chat-frame.open{display:block;animation:cfadeIn .3s ease}
+.coze-chat-frame iframe{width:100%;height:100%;border:none}
+.coze-chat-frame .x-btn{position:absolute;top:10px;right:12px;width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,.06);border:none;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;color:#666}
+.coze-chat-frame .x-btn:hover{background:rgba(0,0,0,.12)}
+@keyframes cfadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:480px){.coze-chat-frame{right:8px;bottom:76px;width:calc(100vw - 16px);height:calc(100vh - 100px)}}
+</style>
+
+<button class="coze-float-btn" id="cozeFBtn" onclick="openCozeChat()">💬</button>
+<div class="coze-chat-frame" id="cozeCF">
+  <button class="x-btn" onclick="toggleCozeFrame()">✕</button>
+  <iframe id="cozeIF" src="" allow="microphone"></iframe>
+</div>
+
 <script>
-// 全局客户端实例
-var cozeClient = new CozeWebSDK.WebChatClient({
-  config: {
-    type: 'bot',
-    bot_id: '7625158451891191851',
-    isIframe: false,
-  },
-  auth: {
-    type: 'token',
-    token: 'cztei_hKDPc8OC6LOtatg4Jb5is4YwiqMIcST9WoqFQtf6rHIcaBTipfd6QdTjVaN6Gs9jJ',
-    onRefreshToken: async () => 'cztei_hKDPc8OC6LOtatg4Jb5is4YwiqMIcST9WoqFQtf6rHIcaBTipfd6QdTjVaN6Gs9jJ'
-  },
-  userInfo: {
-    id: 'guixu-visitor',
-    url: 'https://lf-coze-web-cdn.coze.cn/obj/eden-cn/lm-lgvj/ljhwZthlaukjlkulzlp/coze/coze-logo.png',
-    nickname: '归序顾客',
-  },
-  ui: {
-    base: {
-      icon: 'https://lf-coze-web-cdn.coze.cn/obj/eden-cn/lm-lgvj/ljhwZthlaukjlkulzlp/coze/chatsdk-logo.png',
-      layout: 'pc',
-      lang: 'zh-CN',
-      zIndex: 1000,
-    },
-    header: {
-      isShow: true,
-      isNeedClose: true,
-    },
-    asstBtn: {
-      isNeed: true,
-    },
-    footer: {
-      isShow: true,
-      expressionText: 'Powered by Coze · 归序 ORDERA',
-    },
-    chatBot: {
-      title: '归序AI客服 · 小序',
-      uploadable: true,
-      width: 390,
-    },
-  },
-});
+(function(){
+  var BOT_ID = '7625158451891191851';
+  var TOKEN  = 'cztei_hKDPc8OC6LOtatg4Jb5is4YwiqMIcST9WoqFQtf6rHIcaBTipfd6QdTjVaN6Gs9jJ';
+  var sdkOK  = false;
+  var client = null;
+  var frameOpen = false;
 
-// ── 供页面按钮调用的全局函数 ──
-function openCozeChat() {
-  try {
-    // 方法1: SDK 自带 API
-    if (cozeClient) {
-      if (typeof cozeClient.showChatBot === 'function') { cozeClient.showChatBot(); return; }
-      if (typeof cozeClient.open === 'function') { cozeClient.open(); return; }
-      if (typeof cozeClient.show === 'function') { cozeClient.show(); return; }
-    }
-  } catch(e) { console.log('Coze SDK method failed:', e); }
+  // SDK CDN URLs to try
+  var URLS = [
+    'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.0.0-beta.4/libs/cn/index.js',
+    'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.0.0-beta.5/libs/cn/index.js',
+    'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.1/libs/cn/index.js'
+  ];
 
-  // 方法2: 遍历 DOM 查找 Coze 按钮并点击
-  try {
-    // 搜索所有 iframe / shadow host
-    var allEls = document.querySelectorAll('div, button, iframe');
-    for (var i = 0; i < allEls.length; i++) {
-      var el = allEls[i];
-      var cls = (el.className || '').toString().toLowerCase();
-      var id = (el.id || '').toLowerCase();
-      if (cls.indexOf('coze') !== -1 || id.indexOf('coze') !== -1) {
-        if (el.tagName === 'BUTTON' || el.style.cursor === 'pointer' || el.getAttribute('role') === 'button') {
+  function boot() {
+    if (typeof CozeWebSDK === 'undefined') return;
+    try {
+      client = new CozeWebSDK.WebChatClient({
+        config: { type:'bot', bot_id:BOT_ID, isIframe:false },
+        auth:   { type:'token', token:TOKEN, onRefreshToken:async function(){return TOKEN} },
+        userInfo:{ id:'visitor', url:'https://lf-coze-web-cdn.coze.cn/obj/eden-cn/lm-lgvj/ljhwZthlaukjlkulzlp/coze/coze-logo.png', nickname:'归序顾客' },
+        ui:{
+          base:{ icon:'https://lf-coze-web-cdn.coze.cn/obj/eden-cn/lm-lgvj/ljhwZthlaukjlkulzlp/coze/chatsdk-logo.png', layout:'pc', lang:'zh-CN', zIndex:1000 },
+          header:{ isShow:true, isNeedClose:true },
+          asstBtn:{ isNeed:true },
+          footer:{ isShow:true, expressionText:'Powered by Coze' },
+          chatBot:{ title:'归序AI客服 · 小序', uploadable:true, width:390 }
+        }
+      });
+      sdkOK = true;
+      var fb = document.getElementById('cozeFBtn');
+      if(fb) fb.classList.add('sdk-ready');
+      console.log('[Coze] SDK OK!');
+    } catch(e){ console.error('[Coze] SDK init error:', e); }
+  }
+
+  function load(i) {
+    if(i >= URLS.length){ console.warn('[Coze] All SDK URLs failed, iframe mode active'); return; }
+    var s = document.createElement('script');
+    s.src = URLS[i];
+    s.onload = function(){ console.log('[Coze] Loaded:', URLS[i]); boot(); };
+    s.onerror = function(){ console.warn('[Coze] Failed:', URLS[i]); load(i+1); };
+    document.head.appendChild(s);
+  }
+  load(0);
+
+  // Global open function
+  window.openCozeChat = function() {
+    if(sdkOK && client){
+      var ms = ['showChatBot','open','show','toggle'];
+      for(var i=0;i<ms.length;i++){
+        if(typeof client[ms[i]]==='function'){ client[ms[i]](); return; }
+      }
+      // Try clicking SDK-generated elements
+      var all = document.querySelectorAll('*');
+      for(var j=all.length-1;j>=0;j--){
+        var el=all[j];
+        var cn=(el.className||'').toString();
+        if(el.id==='cozeFBtn'||el.id==='cozeCF') continue;
+        if((cn.indexOf('coze')>-1||cn.indexOf('Coze')>-1||(el.id||'').indexOf('coze')>-1) && getComputedStyle(el).position==='fixed'){
           el.click(); return;
         }
-        // 如果是容器，找里面的可点击元素
-        var inner = el.querySelector('button, [role="button"], [style*="cursor: pointer"], [style*="cursor:pointer"]');
-        if (inner) { inner.click(); return; }
       }
     }
-    // 方法3: 找固定在右下角的浮动按钮（Coze SDK 默认位置）
-    var fixedEls = document.querySelectorAll('div[style*="position: fixed"], div[style*="position:fixed"]');
-    for (var j = 0; j < fixedEls.length; j++) {
-      var fe = fixedEls[j];
-      var rect = fe.getBoundingClientRect();
-      // 右下角区域的浮动元素
-      if (rect.right > window.innerWidth - 100 && rect.bottom > window.innerHeight - 100 && rect.width < 200 && rect.height < 200) {
-        fe.click(); return;
-      }
+    // Fallback: iframe
+    toggleCozeFrame();
+  };
+
+  window.toggleCozeFrame = function() {
+    var cf = document.getElementById('cozeCF');
+    var ifr = document.getElementById('cozeIF');
+    if(!cf) return;
+    frameOpen = !frameOpen;
+    if(frameOpen){
+      if(!ifr.src || ifr.src===location.href) ifr.src='https://www.coze.cn/store/bot/'+BOT_ID;
+      cf.classList.add('open');
+    } else {
+      cf.classList.remove('open');
     }
-  } catch(e2) { console.log('Coze button click fallback failed:', e2); }
-}
+  };
+})();
 </script>
+
 </body>
 </html>
