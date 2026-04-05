@@ -440,6 +440,569 @@ button{font-family:inherit;cursor:pointer}
   .card-name{font-size:12px;min-height:36px}
   .card-price b{font-size:18px}
 }
+
+
+/* ══════════════════════════════════════════
+   UI OPTIMIZATION — 全面界面优化
+   ══════════════════════════════════════════ */
+
+/* ── 1. PAGE-LEVEL POLISH ── */
+body{
+  background:var(--bg);
+  background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='60' height='60' filter='url(%23n)' opacity='.018'/%3E%3C/svg%3E");
+}
+
+/* ── Page entrance ── */
+@keyframes pageIn{from{opacity:0}to{opacity:1}}
+body{animation:pageIn .6s ease}
+
+/* ── 2. HEADER ENHANCEMENT ── */
+.store-header{
+  background:linear-gradient(180deg,var(--white) 0%,rgba(253,251,248,.95) 100%);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+.store-avatar{
+  background:linear-gradient(135deg,var(--sand) 0%,var(--warm) 50%,var(--accent) 100%);
+  box-shadow:0 4px 16px rgba(196,168,130,.25);
+  transition:transform .3s ease;
+}
+.store-avatar:hover{transform:scale(1.06) rotate(-2deg)}
+.store-badge{
+  background:linear-gradient(135deg,var(--accent),#D4B896);
+  box-shadow:0 2px 6px rgba(196,168,130,.3);
+}
+.btn-follow{border-radius:4px;font-weight:500;transition:all .25s cubic-bezier(.4,0,.2,1)}
+.btn-follow:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(196,168,130,.3)}
+.btn-outline{border-radius:4px;transition:all .25s cubic-bezier(.4,0,.2,1)}
+.btn-outline:hover{transform:translateY(-1px);box-shadow:0 2px 8px rgba(58,48,42,.08)}
+
+/* ── 3. NAV ENHANCEMENT ── */
+.store-nav{
+  transition:box-shadow .3s ease;
+  background:rgba(253,251,248,.96);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+}
+.store-nav.scrolled{box-shadow:0 4px 20px rgba(58,48,42,.08)}
+.nav-tab{position:relative}
+.nav-tab::after{
+  content:'';position:absolute;bottom:0;left:50%;width:0;height:2px;
+  background:var(--accent);transition:all .3s cubic-bezier(.4,0,.2,1);
+  transform:translateX(-50%);border-radius:1px;
+}
+.nav-tab:hover::after,.nav-tab.active::after{width:60%}
+.nav-tab.active{border-bottom-color:transparent}
+.nav-search input{border-radius:20px;padding:7px 16px;transition:all .3s}
+.nav-search input:focus{width:220px;box-shadow:0 0 0 3px rgba(196,168,130,.1)}
+.nav-search button{border-radius:0 20px 20px 0;padding:7px 16px;transition:background .2s}
+.nav-search button:hover{background:var(--accent)}
+
+/* ── 4. BANNER ENHANCEMENT ── */
+.banner-main{
+  border-radius:12px;
+  background:
+    radial-gradient(ellipse at 20% 80%, rgba(196,168,130,.15) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(232,213,192,.2) 0%, transparent 50%),
+    linear-gradient(135deg,var(--sand) 0%,var(--warm) 40%,var(--cream) 100%);
+  position:relative;
+}
+.banner-main::before{
+  content:'';position:absolute;inset:0;border-radius:12px;
+  background:url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='20' r='.5' fill='%23B5A08E' opacity='.12'/%3E%3C/svg%3E");
+  pointer-events:none;
+}
+.banner-text h2{
+  text-shadow:0 2px 16px rgba(246,241,235,.6),0 0 60px rgba(196,168,130,.15);
+}
+.banner-text .banner-btn{
+  border-radius:24px;padding:10px 36px;
+  backdrop-filter:blur(4px);background:rgba(253,251,248,.3);
+  transition:all .3s cubic-bezier(.4,0,.2,1);
+}
+.banner-text .banner-btn:hover{
+  background:var(--deep);color:var(--white);
+  transform:translateY(-2px);box-shadow:0 8px 24px rgba(58,48,42,.2);
+}
+.banner-small{border-radius:12px;transition:transform .3s ease,box-shadow .3s ease}
+.banner-small:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(58,48,42,.08)}
+
+/* ── 5. COUPON ENHANCEMENT ── */
+.coupon{border-radius:8px;transition:transform .2s ease,box-shadow .2s ease}
+.coupon:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(196,168,130,.15)}
+.coupon-get{border-radius:0 8px 8px 0;font-weight:600;letter-spacing:2px}
+
+/* ── 6. PRODUCT CARD ENHANCEMENT ── */
+.card{
+  border-radius:10px;
+  border:1px solid rgba(232,223,212,.4);
+  transition:all .4s cubic-bezier(.25,.8,.25,1);
+}
+.card:hover{
+  transform:translateY(-8px);
+  box-shadow:
+    0 20px 40px rgba(58,48,42,.1),
+    0 4px 8px rgba(58,48,42,.04);
+  border-color:rgba(196,168,130,.3);
+}
+.card-img{border-radius:10px 10px 0 0;position:relative}
+.card-img::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:40px;
+  background:linear-gradient(to top,rgba(253,251,248,.6),transparent);
+  pointer-events:none;opacity:0;transition:opacity .3s;
+}
+.card:hover .card-img::after{opacity:1}
+.card-img img{transition:transform .5s cubic-bezier(.25,.8,.25,1)}
+.card:hover .card-img img{transform:scale(1.08)}
+.card-tag{border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.1)}
+.card-tag.hot{background:linear-gradient(135deg,#C75C5C,#D4796A)}
+.card-tag.new{background:linear-gradient(135deg,var(--accent),#D4B896)}
+.card-body{padding:14px 16px 18px}
+.card-price b{transition:color .2s}
+.card:hover .card-price b{color:#B84A4A}
+.card-ship span{transition:all .2s;font-size:10px}
+.card:hover .card-ship span{border-color:var(--accent);color:var(--accent)}
+.card-promo{border-radius:4px;transition:all .2s}
+
+/* Card stagger animation */
+.grid .card{opacity:0;transform:translateY(24px);animation:cardIn .5s ease forwards}
+@keyframes cardIn{to{opacity:1;transform:translateY(0)}}
+.grid .card:nth-child(1){animation-delay:.05s}
+.grid .card:nth-child(2){animation-delay:.1s}
+.grid .card:nth-child(3){animation-delay:.15s}
+.grid .card:nth-child(4){animation-delay:.2s}
+.grid .card:nth-child(5){animation-delay:.25s}
+.grid .card:nth-child(6){animation-delay:.3s}
+.grid .card:nth-child(7){animation-delay:.35s}
+.grid .card:nth-child(8){animation-delay:.4s}
+
+/* ── 7. BUNDLE ENHANCEMENT ── */
+.bundle-card{border-radius:10px;transition:all .35s cubic-bezier(.25,.8,.25,1)}
+.bundle-card:hover{
+  box-shadow:0 12px 32px rgba(58,48,42,.1);
+  transform:translateY(-4px);border-color:var(--accent);
+}
+.bundle-imgs{border-radius:10px 10px 0 0;transition:background .3s}
+.bundle-card:hover .bundle-imgs{background:var(--sand)}
+.bundle-img{border-radius:8px;transition:transform .3s}
+.bundle-card:hover .bundle-img{transform:scale(1.05)}
+.bundle-btn{
+  border-radius:6px;transition:all .25s cubic-bezier(.4,0,.2,1);
+}
+.bundle-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(196,168,130,.3)}
+
+/* ── 8. CATEGORY CHIPS ── */
+.cat-chip{
+  border-radius:24px;font-weight:400;
+  transition:all .25s cubic-bezier(.4,0,.2,1);
+}
+.cat-chip:hover,.cat-chip.active{
+  transform:translateY(-1px);
+  box-shadow:0 4px 12px rgba(58,48,42,.1);
+}
+
+/* ── 9. SECTION TITLES ── */
+.section-title{font-size:17px;letter-spacing:3px}
+.section-title::before{
+  width:3px;height:18px;
+  background:linear-gradient(to bottom,var(--accent),var(--warm));
+  border-radius:2px;
+}
+.section-head{border-bottom:1px solid rgba(232,223,212,.6);padding-bottom:14px}
+.section-more{
+  transition:all .2s;padding:4px 12px;border-radius:12px;
+}
+.section-more:hover{background:var(--cream);color:var(--deep)}
+
+/* ── 10. COUNTDOWN ENHANCEMENT ── */
+.countdown-inner{
+  border-radius:10px;
+  background:linear-gradient(135deg,var(--deep) 0%,#4A3D35 50%,#3A302A 100%);
+  position:relative;overflow:hidden;
+}
+.countdown-inner::before{
+  content:'';position:absolute;top:-50%;right:-10%;width:200px;height:200px;
+  border-radius:50%;background:rgba(196,168,130,.06);pointer-events:none;
+}
+.countdown-num{
+  background:rgba(255,255,255,.12);
+  backdrop-filter:blur(4px);border-radius:6px;
+  border:1px solid rgba(255,255,255,.06);
+  font-variant-numeric:tabular-nums;
+}
+
+/* ── 11. REVIEW CARDS ── */
+.review-card{
+  border-radius:10px;padding:22px;
+  transition:all .3s cubic-bezier(.25,.8,.25,1);
+  position:relative;
+}
+.review-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 24px rgba(58,48,42,.08);
+  border-color:var(--accent);
+}
+.review-card::before{
+  content:'"';position:absolute;top:10px;right:16px;
+  font-family:'Cormorant Garamond',serif;font-size:48px;
+  color:var(--sand);line-height:1;pointer-events:none;
+}
+.review-stars{letter-spacing:3px}
+
+/* ── 12. BRAND STORY ENHANCEMENT ── */
+.brand-inner{
+  border-radius:12px;
+  background:
+    radial-gradient(ellipse at 20% 80%, rgba(196,168,130,.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(232,213,192,.06) 0%, transparent 50%),
+    var(--white);
+  padding:64px 48px;
+}
+.brand-inner::after{
+  content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  width:1px;height:48px;background:linear-gradient(to top,transparent,var(--warm));
+}
+.brand-title{
+  background:linear-gradient(135deg,var(--deep),var(--earth));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.brand-value{transition:transform .2s}
+.brand-value:hover{transform:translateY(-3px)}
+.brand-value-icon{transition:transform .3s}
+.brand-value:hover .brand-value-icon{transform:scale(1.2)}
+
+/* ── 13. GUARANTEE CARDS ── */
+.guarantee-card{
+  border-radius:10px;
+  transition:all .3s cubic-bezier(.25,.8,.25,1);
+  position:relative;overflow:hidden;
+}
+.guarantee-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--accent),var(--warm));
+  transform:scaleX(0);transition:transform .3s;transform-origin:left;
+}
+.guarantee-card:hover::before{transform:scaleX(1)}
+.guarantee-card:hover{
+  border-color:var(--accent);
+  box-shadow:0 8px 24px rgba(58,48,42,.06);
+  transform:translateY(-4px);
+}
+.guarantee-icon{transition:transform .3s}
+.guarantee-card:hover .guarantee-icon{transform:scale(1.15)}
+
+/* ── 14. FAQ ENHANCEMENT ── */
+.faq-item{border-radius:10px;transition:all .2s}
+.faq-item:hover{border-color:rgba(196,168,130,.5)}
+.faq-item.open{border-color:var(--accent);box-shadow:0 4px 16px rgba(58,48,42,.04)}
+.faq-q{padding:18px 22px;font-size:13.5px;transition:all .2s}
+.faq-q:hover{background:rgba(196,168,130,.04)}
+.faq-a-inner{padding:0 22px 18px;font-size:12.5px;line-height:2.1}
+
+/* ── 15. MEMBERSHIP CARDS ── */
+.member-card{border-radius:12px;transition:all .3s cubic-bezier(.25,.8,.25,1)}
+.member-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 16px 40px rgba(58,48,42,.15);
+}
+.member-card::before{
+  content:'';position:absolute;inset:0;border-radius:12px;
+  background:linear-gradient(135deg,rgba(255,255,255,.08) 0%,transparent 50%);
+  pointer-events:none;
+}
+
+/* ── 16. MODAL ENHANCEMENT ── */
+.modal-overlay{transition:opacity .3s ease}
+.modal-box{
+  border-radius:14px;
+  animation:modalIn .35s cubic-bezier(.25,.8,.25,1);
+  box-shadow:0 32px 80px rgba(42,35,32,.25);
+}
+@keyframes modalIn{
+  from{opacity:0;transform:scale(.95) translateY(20px)}
+  to{opacity:1;transform:scale(1) translateY(0)}
+}
+.modal-close{
+  background:rgba(232,223,212,.5);
+  backdrop-filter:blur(4px);
+  transition:all .25s;
+}
+.modal-close:hover{background:rgba(232,223,212,.8);transform:rotate(90deg)}
+.modal-buy-btn{border-radius:8px;transition:all .25s cubic-bezier(.4,0,.2,1)}
+.modal-buy-primary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 6px 16px rgba(196,168,130,.3);
+}
+.modal-buy-secondary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 4px 12px rgba(58,48,42,.06);
+}
+
+/* ── 17. CART DRAWER ENHANCEMENT ── */
+.cart-icon-wrap{
+  border-radius:24px;transition:all .25s cubic-bezier(.4,0,.2,1);
+}
+.cart-icon-wrap:hover{
+  transform:translateY(-1px);
+  box-shadow:0 4px 12px rgba(196,168,130,.15);
+}
+.cart-badge{
+  background:linear-gradient(135deg,#C75C5C,#D4796A);
+  box-shadow:0 2px 6px rgba(199,92,92,.3);
+}
+.cart-drawer{border-radius:16px 0 0 16px;box-shadow:-12px 0 40px rgba(42,35,32,.18)}
+.cart-checkout-btn{
+  border-radius:10px;
+  transition:all .25s cubic-bezier(.4,0,.2,1);
+  background:linear-gradient(135deg,var(--deep),#4A3D35);
+}
+.cart-checkout-btn:hover:not(:disabled){
+  transform:translateY(-2px);
+  box-shadow:0 6px 20px rgba(58,48,42,.2);
+}
+.cart-item{border-radius:8px;transition:background .2s}
+.cart-item:hover{background:rgba(246,241,235,.5)}
+
+/* ── 18. WECHAT BAR ── */
+.wechat-bar{
+  border-radius:12px;
+  transition:all .3s cubic-bezier(.25,.8,.25,1);
+}
+.wechat-bar:hover{
+  border-color:var(--accent);
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(58,48,42,.06);
+}
+.wechat-tag{transition:all .2s}
+.wechat-tag:hover{background:rgba(196,168,130,.18);border-color:var(--accent)}
+
+/* ── 19. LIVE SECTION ── */
+.live-wrapper{border-radius:12px}
+.live-phone-frame{
+  border-radius:24px;
+  box-shadow:0 12px 40px rgba(42,35,32,.22),inset 0 0 0 2px rgba(255,255,255,.06);
+}
+.live-btn{
+  border-radius:8px;
+  transition:all .25s cubic-bezier(.4,0,.2,1);
+}
+.live-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(196,168,130,.3)}
+
+/* ── 20. INFO CARDS ── */
+.info-card{
+  border-radius:10px;
+  transition:all .3s cubic-bezier(.25,.8,.25,1);
+}
+.info-card:hover{
+  border-color:var(--accent);
+  transform:translateY(-4px);
+  box-shadow:0 8px 24px rgba(58,48,42,.06);
+}
+.info-icon{transition:transform .3s}
+.info-card:hover .info-icon{transform:scale(1.15)}
+
+/* ── 21. SHOPPING GUIDE ── */
+.shop-guide-step{border-radius:10px;transition:all .3s cubic-bezier(.25,.8,.25,1)}
+.shop-guide-step:hover{
+  transform:translateY(-4px);
+  box-shadow:0 8px 24px rgba(58,48,42,.06);
+  border-color:var(--accent);
+}
+
+/* ── 22. FOOTER ENHANCEMENT ── */
+.store-footer{border-top:none;position:relative}
+.store-footer::before{
+  content:'';display:block;width:80px;height:1px;margin:0 auto 36px;
+  background:linear-gradient(90deg,transparent,var(--warm),transparent);
+}
+.footer-brand{
+  background:linear-gradient(135deg,var(--deep),var(--earth));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.footer-col a{
+  transition:all .2s;padding:2px 0;border-radius:2px;
+}
+.footer-col a:hover{color:var(--accent);padding-left:6px}
+.footer-bottom{
+  background:var(--white);
+  border-top:1px solid rgba(232,223,212,.5);
+  padding:24px;
+}
+
+/* ── 23. SCROLL TOP BUTTON ── */
+.scroll-top{
+  border-radius:14px;
+  background:linear-gradient(135deg,var(--deep),#4A3D35);
+  box-shadow:0 4px 20px rgba(58,48,42,.2);
+  width:46px;height:46px;
+}
+.scroll-top:hover{
+  background:linear-gradient(135deg,var(--accent),#D4B896);
+  transform:translateY(-3px) scale(1.05);
+  box-shadow:0 8px 24px rgba(196,168,130,.3);
+}
+
+/* ── 24. GUIDE CARDS ── */
+.guide-card{border-radius:10px;transition:all .3s cubic-bezier(.25,.8,.25,1)}
+.guide-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 24px rgba(58,48,42,.06);
+  border-color:var(--accent);
+}
+
+/* ── 25. SELECTION & SCROLLBAR ── */
+::selection{background:rgba(196,168,130,.25);color:var(--deep)}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--warm);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--clay)}
+
+/* ── 26. ENHANCED MOBILE RESPONSIVE ── */
+@media(max-width:768px){
+  .store-header-inner{padding:16px 16px}
+  .store-avatar{width:56px;height:56px}
+  .store-avatar-text{font-size:18px;letter-spacing:2px}
+  .store-name h1{font-size:17px;letter-spacing:2px}
+  .store-meta{gap:12px;flex-wrap:wrap}
+  .store-meta span{font-size:11px}
+  .store-actions{gap:6px}
+  .btn-follow,.btn-outline{padding:7px 16px;font-size:11px}
+
+  .store-nav-inner{padding:0 8px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .nav-tab{padding:12px 14px;font-size:12px;white-space:nowrap;flex-shrink:0}
+
+  .banner{padding:0 16px;margin-top:12px;gap:10px}
+  .banner-main{border-radius:10px;aspect-ratio:2/1}
+  .banner-text h2{font-size:18px;letter-spacing:3px}
+  .banner-text p{font-size:11px;letter-spacing:2px}
+  .banner-text .banner-btn{padding:8px 24px;font-size:10px}
+  .banner-small{border-radius:10px}
+  .banner-small h3{font-size:12px}
+
+  .coupon-bar{padding:0 16px}
+  .coupon-inner{padding:12px 14px;gap:10px;border-radius:10px}
+  .coupon-amount{padding:8px 12px;min-width:60px}
+  .coupon-amount b{font-size:16px}
+
+  .cat-bar{padding:0 16px}
+  .cat-chip{padding:7px 16px;font-size:11px}
+
+  .grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .card{border-radius:8px}
+  .card-img{border-radius:8px 8px 0 0}
+  .card-body{padding:10px 12px 14px}
+  .card-name{font-size:12px;min-height:36px;line-height:1.5;margin-bottom:6px}
+  .card-promo{font-size:10px;padding:2px 6px}
+  .card-price b{font-size:17px}
+  .card-price del{font-size:10px}
+  .card-sales{font-size:10px}
+  .card-ship{font-size:9px;gap:4px}
+  .card-ship span{padding:1px 6px}
+
+  .bundle-grid{grid-template-columns:1fr}
+  .bundle-card{border-radius:10px}
+  .bundle-info{padding:14px 16px 18px}
+  .bundle-name{font-size:14px}
+
+  .info-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .info-card{padding:18px 14px;border-radius:8px}
+  .info-icon{font-size:24px;margin-bottom:8px}
+  .info-title{font-size:12px}
+  .info-desc{font-size:10px}
+
+  .review-strip{padding-left:16px;gap:10px}
+  .review-card{width:240px;padding:16px;border-radius:8px}
+  .review-card::before{font-size:36px}
+  .review-text{font-size:11px}
+
+  .live-wrapper{border-radius:10px}
+  .live-side{padding:20px 16px}
+  .live-title{font-size:16px}
+  .live-desc{font-size:12px;line-height:2}
+  .live-btns{flex-direction:column}
+  .live-btn,.live-btn-outline{width:100%;text-align:center}
+  .live-features{grid-template-columns:repeat(2,1fr)}
+  .live-feature{padding:10px}
+  .live-feature-icon{font-size:16px}
+  .live-feature-text{font-size:10px}
+
+  .wechat-bar{padding:18px 16px;border-radius:10px}
+  .wechat-qr{width:64px;height:64px}
+
+  .brand-inner{padding:36px 20px;border-radius:10px}
+  .brand-title{font-size:20px;letter-spacing:4px}
+  .brand-tagline{font-size:12px;letter-spacing:2px}
+  .brand-text{font-size:12.5px;line-height:2.2}
+  .brand-values{gap:16px;flex-wrap:wrap}
+  .brand-value-text{font-size:10px;letter-spacing:1px}
+
+  .guarantee-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .guarantee-card{padding:18px 14px;border-radius:8px}
+  .guarantee-icon{font-size:26px;margin-bottom:8px}
+  .guarantee-title{font-size:13px}
+  .guarantee-desc{font-size:11px}
+
+  .faq-item{border-radius:8px}
+  .faq-q{padding:14px 16px;font-size:13px}
+  .faq-a-inner{padding:0 16px 14px;font-size:12px}
+
+  .member-grid{grid-template-columns:1fr;gap:10px}
+  .member-card{padding:22px 20px;border-radius:10px}
+
+  .guide-grid{grid-template-columns:1fr;gap:10px}
+  .guide-card{padding:18px;border-radius:8px}
+
+  .shop-guide-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .shop-guide-step{padding:20px 14px;border-radius:8px}
+  .shop-guide-icon{font-size:26px;margin-bottom:10px}
+  .shop-guide-title{font-size:13px}
+  .shop-guide-desc{font-size:11px}
+
+  .section-block{padding:0 16px;margin:18px auto}
+  .section-title{font-size:15px;letter-spacing:2px}
+  .section-head{padding-bottom:10px;margin-bottom:14px}
+
+  .modal-box{border-radius:12px;width:96%}
+  .modal-info{padding:20px 16px}
+  .modal-title{font-size:15px}
+  .modal-price-row .now{font-size:24px}
+  .modal-buy-btn{padding:10px;font-size:13px}
+
+  .cart-drawer{width:92vw;border-radius:14px 0 0 14px}
+  .cart-drawer-header{padding:16px 18px}
+  .cart-items{padding:12px 18px}
+
+  .store-footer{padding:24px 16px}
+  .footer-grid{grid-template-columns:1fr;gap:24px;text-align:center}
+  .footer-col{text-align:center}
+
+  .countdown-inner{border-radius:8px;padding:12px 16px}
+  .countdown-num{padding:5px 8px;font-size:14px;min-width:30px;border-radius:4px}
+
+  .scroll-top{bottom:76px;left:14px;width:40px;height:40px;border-radius:12px}
+
+  /* Disable heavy hover effects on mobile */
+  .card:hover{transform:none;box-shadow:none}
+  .card:active{transform:scale(.98);transition:transform .1s}
+  .bundle-card:hover{transform:none;box-shadow:none}
+  .bundle-card:active{transform:scale(.98)}
+  .guarantee-card:hover{transform:none;box-shadow:none}
+  .info-card:hover{transform:none;box-shadow:none}
+}
+
+/* ── Extra small screens ── */
+@media(max-width:380px){
+  .grid{grid-template-columns:1fr}
+  .store-header-inner{flex-direction:column;align-items:flex-start}
+  .store-actions{justify-content:flex-start}
+  .guarantee-grid{grid-template-columns:1fr}
+  .info-grid{grid-template-columns:1fr}
+  .shop-guide-grid{grid-template-columns:1fr}
+  .banner-side{flex-direction:column}
+}
+
 </style>
 </head>
 <body>
@@ -1358,6 +1921,33 @@ window.addEventListener('scroll', function(){
     }
   }, 5000);
 })();
+// ── NAV SCROLL SHADOW ──
+(function(){
+  var nav = document.querySelector('.store-nav');
+  if(!nav) return;
+  window.addEventListener('scroll', function(){
+    if(window.scrollY > 80) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  }, {passive:true});
+})();
+
+// ── CARD STAGGER ON SCROLL ──
+(function(){
+  var grids = document.querySelectorAll('.grid');
+  if(!grids.length) return;
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        var cards = entry.target.querySelectorAll('.card');
+        cards.forEach(function(card, i){
+          card.style.animationDelay = (i * 0.06) + 's';
+        });
+        entry.target.classList.add('visible');
+      }
+    });
+  }, {threshold: 0.1});
+  grids.forEach(function(g){ obs.observe(g); });
+})();
 </script>
 
 <!-- Coze AI Chat -->
@@ -1372,6 +1962,569 @@ window.addEventListener('scroll', function(){
 .coze-chat-frame .x-btn:hover{background:rgba(0,0,0,.12)}
 @keyframes cfadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:480px){.coze-chat-frame{right:8px;bottom:76px;width:calc(100vw - 16px);height:calc(100vh - 100px)}}
+
+
+/* ══════════════════════════════════════════
+   UI OPTIMIZATION — 全面界面优化
+   ══════════════════════════════════════════ */
+
+/* ── 1. PAGE-LEVEL POLISH ── */
+body{
+  background:var(--bg);
+  background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='60' height='60' filter='url(%23n)' opacity='.018'/%3E%3C/svg%3E");
+}
+
+/* ── Page entrance ── */
+@keyframes pageIn{from{opacity:0}to{opacity:1}}
+body{animation:pageIn .6s ease}
+
+/* ── 2. HEADER ENHANCEMENT ── */
+.store-header{
+  background:linear-gradient(180deg,var(--white) 0%,rgba(253,251,248,.95) 100%);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+.store-avatar{
+  background:linear-gradient(135deg,var(--sand) 0%,var(--warm) 50%,var(--accent) 100%);
+  box-shadow:0 4px 16px rgba(196,168,130,.25);
+  transition:transform .3s ease;
+}
+.store-avatar:hover{transform:scale(1.06) rotate(-2deg)}
+.store-badge{
+  background:linear-gradient(135deg,var(--accent),#D4B896);
+  box-shadow:0 2px 6px rgba(196,168,130,.3);
+}
+.btn-follow{border-radius:4px;font-weight:500;transition:all .25s cubic-bezier(.4,0,.2,1)}
+.btn-follow:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(196,168,130,.3)}
+.btn-outline{border-radius:4px;transition:all .25s cubic-bezier(.4,0,.2,1)}
+.btn-outline:hover{transform:translateY(-1px);box-shadow:0 2px 8px rgba(58,48,42,.08)}
+
+/* ── 3. NAV ENHANCEMENT ── */
+.store-nav{
+  transition:box-shadow .3s ease;
+  background:rgba(253,251,248,.96);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+}
+.store-nav.scrolled{box-shadow:0 4px 20px rgba(58,48,42,.08)}
+.nav-tab{position:relative}
+.nav-tab::after{
+  content:'';position:absolute;bottom:0;left:50%;width:0;height:2px;
+  background:var(--accent);transition:all .3s cubic-bezier(.4,0,.2,1);
+  transform:translateX(-50%);border-radius:1px;
+}
+.nav-tab:hover::after,.nav-tab.active::after{width:60%}
+.nav-tab.active{border-bottom-color:transparent}
+.nav-search input{border-radius:20px;padding:7px 16px;transition:all .3s}
+.nav-search input:focus{width:220px;box-shadow:0 0 0 3px rgba(196,168,130,.1)}
+.nav-search button{border-radius:0 20px 20px 0;padding:7px 16px;transition:background .2s}
+.nav-search button:hover{background:var(--accent)}
+
+/* ── 4. BANNER ENHANCEMENT ── */
+.banner-main{
+  border-radius:12px;
+  background:
+    radial-gradient(ellipse at 20% 80%, rgba(196,168,130,.15) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(232,213,192,.2) 0%, transparent 50%),
+    linear-gradient(135deg,var(--sand) 0%,var(--warm) 40%,var(--cream) 100%);
+  position:relative;
+}
+.banner-main::before{
+  content:'';position:absolute;inset:0;border-radius:12px;
+  background:url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='20' r='.5' fill='%23B5A08E' opacity='.12'/%3E%3C/svg%3E");
+  pointer-events:none;
+}
+.banner-text h2{
+  text-shadow:0 2px 16px rgba(246,241,235,.6),0 0 60px rgba(196,168,130,.15);
+}
+.banner-text .banner-btn{
+  border-radius:24px;padding:10px 36px;
+  backdrop-filter:blur(4px);background:rgba(253,251,248,.3);
+  transition:all .3s cubic-bezier(.4,0,.2,1);
+}
+.banner-text .banner-btn:hover{
+  background:var(--deep);color:var(--white);
+  transform:translateY(-2px);box-shadow:0 8px 24px rgba(58,48,42,.2);
+}
+.banner-small{border-radius:12px;transition:transform .3s ease,box-shadow .3s ease}
+.banner-small:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(58,48,42,.08)}
+
+/* ── 5. COUPON ENHANCEMENT ── */
+.coupon{border-radius:8px;transition:transform .2s ease,box-shadow .2s ease}
+.coupon:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(196,168,130,.15)}
+.coupon-get{border-radius:0 8px 8px 0;font-weight:600;letter-spacing:2px}
+
+/* ── 6. PRODUCT CARD ENHANCEMENT ── */
+.card{
+  border-radius:10px;
+  border:1px solid rgba(232,223,212,.4);
+  transition:all .4s cubic-bezier(.25,.8,.25,1);
+}
+.card:hover{
+  transform:translateY(-8px);
+  box-shadow:
+    0 20px 40px rgba(58,48,42,.1),
+    0 4px 8px rgba(58,48,42,.04);
+  border-color:rgba(196,168,130,.3);
+}
+.card-img{border-radius:10px 10px 0 0;position:relative}
+.card-img::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:40px;
+  background:linear-gradient(to top,rgba(253,251,248,.6),transparent);
+  pointer-events:none;opacity:0;transition:opacity .3s;
+}
+.card:hover .card-img::after{opacity:1}
+.card-img img{transition:transform .5s cubic-bezier(.25,.8,.25,1)}
+.card:hover .card-img img{transform:scale(1.08)}
+.card-tag{border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.1)}
+.card-tag.hot{background:linear-gradient(135deg,#C75C5C,#D4796A)}
+.card-tag.new{background:linear-gradient(135deg,var(--accent),#D4B896)}
+.card-body{padding:14px 16px 18px}
+.card-price b{transition:color .2s}
+.card:hover .card-price b{color:#B84A4A}
+.card-ship span{transition:all .2s;font-size:10px}
+.card:hover .card-ship span{border-color:var(--accent);color:var(--accent)}
+.card-promo{border-radius:4px;transition:all .2s}
+
+/* Card stagger animation */
+.grid .card{opacity:0;transform:translateY(24px);animation:cardIn .5s ease forwards}
+@keyframes cardIn{to{opacity:1;transform:translateY(0)}}
+.grid .card:nth-child(1){animation-delay:.05s}
+.grid .card:nth-child(2){animation-delay:.1s}
+.grid .card:nth-child(3){animation-delay:.15s}
+.grid .card:nth-child(4){animation-delay:.2s}
+.grid .card:nth-child(5){animation-delay:.25s}
+.grid .card:nth-child(6){animation-delay:.3s}
+.grid .card:nth-child(7){animation-delay:.35s}
+.grid .card:nth-child(8){animation-delay:.4s}
+
+/* ── 7. BUNDLE ENHANCEMENT ── */
+.bundle-card{border-radius:10px;transition:all .35s cubic-bezier(.25,.8,.25,1)}
+.bundle-card:hover{
+  box-shadow:0 12px 32px rgba(58,48,42,.1);
+  transform:translateY(-4px);border-color:var(--accent);
+}
+.bundle-imgs{border-radius:10px 10px 0 0;transition:background .3s}
+.bundle-card:hover .bundle-imgs{background:var(--sand)}
+.bundle-img{border-radius:8px;transition:transform .3s}
+.bundle-card:hover .bundle-img{transform:scale(1.05)}
+.bundle-btn{
+  border-radius:6px;transition:all .25s cubic-bezier(.4,0,.2,1);
+}
+.bundle-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(196,168,130,.3)}
+
+/* ── 8. CATEGORY CHIPS ── */
+.cat-chip{
+  border-radius:24px;font-weight:400;
+  transition:all .25s cubic-bezier(.4,0,.2,1);
+}
+.cat-chip:hover,.cat-chip.active{
+  transform:translateY(-1px);
+  box-shadow:0 4px 12px rgba(58,48,42,.1);
+}
+
+/* ── 9. SECTION TITLES ── */
+.section-title{font-size:17px;letter-spacing:3px}
+.section-title::before{
+  width:3px;height:18px;
+  background:linear-gradient(to bottom,var(--accent),var(--warm));
+  border-radius:2px;
+}
+.section-head{border-bottom:1px solid rgba(232,223,212,.6);padding-bottom:14px}
+.section-more{
+  transition:all .2s;padding:4px 12px;border-radius:12px;
+}
+.section-more:hover{background:var(--cream);color:var(--deep)}
+
+/* ── 10. COUNTDOWN ENHANCEMENT ── */
+.countdown-inner{
+  border-radius:10px;
+  background:linear-gradient(135deg,var(--deep) 0%,#4A3D35 50%,#3A302A 100%);
+  position:relative;overflow:hidden;
+}
+.countdown-inner::before{
+  content:'';position:absolute;top:-50%;right:-10%;width:200px;height:200px;
+  border-radius:50%;background:rgba(196,168,130,.06);pointer-events:none;
+}
+.countdown-num{
+  background:rgba(255,255,255,.12);
+  backdrop-filter:blur(4px);border-radius:6px;
+  border:1px solid rgba(255,255,255,.06);
+  font-variant-numeric:tabular-nums;
+}
+
+/* ── 11. REVIEW CARDS ── */
+.review-card{
+  border-radius:10px;padding:22px;
+  transition:all .3s cubic-bezier(.25,.8,.25,1);
+  position:relative;
+}
+.review-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 24px rgba(58,48,42,.08);
+  border-color:var(--accent);
+}
+.review-card::before{
+  content:'"';position:absolute;top:10px;right:16px;
+  font-family:'Cormorant Garamond',serif;font-size:48px;
+  color:var(--sand);line-height:1;pointer-events:none;
+}
+.review-stars{letter-spacing:3px}
+
+/* ── 12. BRAND STORY ENHANCEMENT ── */
+.brand-inner{
+  border-radius:12px;
+  background:
+    radial-gradient(ellipse at 20% 80%, rgba(196,168,130,.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(232,213,192,.06) 0%, transparent 50%),
+    var(--white);
+  padding:64px 48px;
+}
+.brand-inner::after{
+  content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  width:1px;height:48px;background:linear-gradient(to top,transparent,var(--warm));
+}
+.brand-title{
+  background:linear-gradient(135deg,var(--deep),var(--earth));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.brand-value{transition:transform .2s}
+.brand-value:hover{transform:translateY(-3px)}
+.brand-value-icon{transition:transform .3s}
+.brand-value:hover .brand-value-icon{transform:scale(1.2)}
+
+/* ── 13. GUARANTEE CARDS ── */
+.guarantee-card{
+  border-radius:10px;
+  transition:all .3s cubic-bezier(.25,.8,.25,1);
+  position:relative;overflow:hidden;
+}
+.guarantee-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--accent),var(--warm));
+  transform:scaleX(0);transition:transform .3s;transform-origin:left;
+}
+.guarantee-card:hover::before{transform:scaleX(1)}
+.guarantee-card:hover{
+  border-color:var(--accent);
+  box-shadow:0 8px 24px rgba(58,48,42,.06);
+  transform:translateY(-4px);
+}
+.guarantee-icon{transition:transform .3s}
+.guarantee-card:hover .guarantee-icon{transform:scale(1.15)}
+
+/* ── 14. FAQ ENHANCEMENT ── */
+.faq-item{border-radius:10px;transition:all .2s}
+.faq-item:hover{border-color:rgba(196,168,130,.5)}
+.faq-item.open{border-color:var(--accent);box-shadow:0 4px 16px rgba(58,48,42,.04)}
+.faq-q{padding:18px 22px;font-size:13.5px;transition:all .2s}
+.faq-q:hover{background:rgba(196,168,130,.04)}
+.faq-a-inner{padding:0 22px 18px;font-size:12.5px;line-height:2.1}
+
+/* ── 15. MEMBERSHIP CARDS ── */
+.member-card{border-radius:12px;transition:all .3s cubic-bezier(.25,.8,.25,1)}
+.member-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 16px 40px rgba(58,48,42,.15);
+}
+.member-card::before{
+  content:'';position:absolute;inset:0;border-radius:12px;
+  background:linear-gradient(135deg,rgba(255,255,255,.08) 0%,transparent 50%);
+  pointer-events:none;
+}
+
+/* ── 16. MODAL ENHANCEMENT ── */
+.modal-overlay{transition:opacity .3s ease}
+.modal-box{
+  border-radius:14px;
+  animation:modalIn .35s cubic-bezier(.25,.8,.25,1);
+  box-shadow:0 32px 80px rgba(42,35,32,.25);
+}
+@keyframes modalIn{
+  from{opacity:0;transform:scale(.95) translateY(20px)}
+  to{opacity:1;transform:scale(1) translateY(0)}
+}
+.modal-close{
+  background:rgba(232,223,212,.5);
+  backdrop-filter:blur(4px);
+  transition:all .25s;
+}
+.modal-close:hover{background:rgba(232,223,212,.8);transform:rotate(90deg)}
+.modal-buy-btn{border-radius:8px;transition:all .25s cubic-bezier(.4,0,.2,1)}
+.modal-buy-primary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 6px 16px rgba(196,168,130,.3);
+}
+.modal-buy-secondary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 4px 12px rgba(58,48,42,.06);
+}
+
+/* ── 17. CART DRAWER ENHANCEMENT ── */
+.cart-icon-wrap{
+  border-radius:24px;transition:all .25s cubic-bezier(.4,0,.2,1);
+}
+.cart-icon-wrap:hover{
+  transform:translateY(-1px);
+  box-shadow:0 4px 12px rgba(196,168,130,.15);
+}
+.cart-badge{
+  background:linear-gradient(135deg,#C75C5C,#D4796A);
+  box-shadow:0 2px 6px rgba(199,92,92,.3);
+}
+.cart-drawer{border-radius:16px 0 0 16px;box-shadow:-12px 0 40px rgba(42,35,32,.18)}
+.cart-checkout-btn{
+  border-radius:10px;
+  transition:all .25s cubic-bezier(.4,0,.2,1);
+  background:linear-gradient(135deg,var(--deep),#4A3D35);
+}
+.cart-checkout-btn:hover:not(:disabled){
+  transform:translateY(-2px);
+  box-shadow:0 6px 20px rgba(58,48,42,.2);
+}
+.cart-item{border-radius:8px;transition:background .2s}
+.cart-item:hover{background:rgba(246,241,235,.5)}
+
+/* ── 18. WECHAT BAR ── */
+.wechat-bar{
+  border-radius:12px;
+  transition:all .3s cubic-bezier(.25,.8,.25,1);
+}
+.wechat-bar:hover{
+  border-color:var(--accent);
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(58,48,42,.06);
+}
+.wechat-tag{transition:all .2s}
+.wechat-tag:hover{background:rgba(196,168,130,.18);border-color:var(--accent)}
+
+/* ── 19. LIVE SECTION ── */
+.live-wrapper{border-radius:12px}
+.live-phone-frame{
+  border-radius:24px;
+  box-shadow:0 12px 40px rgba(42,35,32,.22),inset 0 0 0 2px rgba(255,255,255,.06);
+}
+.live-btn{
+  border-radius:8px;
+  transition:all .25s cubic-bezier(.4,0,.2,1);
+}
+.live-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(196,168,130,.3)}
+
+/* ── 20. INFO CARDS ── */
+.info-card{
+  border-radius:10px;
+  transition:all .3s cubic-bezier(.25,.8,.25,1);
+}
+.info-card:hover{
+  border-color:var(--accent);
+  transform:translateY(-4px);
+  box-shadow:0 8px 24px rgba(58,48,42,.06);
+}
+.info-icon{transition:transform .3s}
+.info-card:hover .info-icon{transform:scale(1.15)}
+
+/* ── 21. SHOPPING GUIDE ── */
+.shop-guide-step{border-radius:10px;transition:all .3s cubic-bezier(.25,.8,.25,1)}
+.shop-guide-step:hover{
+  transform:translateY(-4px);
+  box-shadow:0 8px 24px rgba(58,48,42,.06);
+  border-color:var(--accent);
+}
+
+/* ── 22. FOOTER ENHANCEMENT ── */
+.store-footer{border-top:none;position:relative}
+.store-footer::before{
+  content:'';display:block;width:80px;height:1px;margin:0 auto 36px;
+  background:linear-gradient(90deg,transparent,var(--warm),transparent);
+}
+.footer-brand{
+  background:linear-gradient(135deg,var(--deep),var(--earth));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.footer-col a{
+  transition:all .2s;padding:2px 0;border-radius:2px;
+}
+.footer-col a:hover{color:var(--accent);padding-left:6px}
+.footer-bottom{
+  background:var(--white);
+  border-top:1px solid rgba(232,223,212,.5);
+  padding:24px;
+}
+
+/* ── 23. SCROLL TOP BUTTON ── */
+.scroll-top{
+  border-radius:14px;
+  background:linear-gradient(135deg,var(--deep),#4A3D35);
+  box-shadow:0 4px 20px rgba(58,48,42,.2);
+  width:46px;height:46px;
+}
+.scroll-top:hover{
+  background:linear-gradient(135deg,var(--accent),#D4B896);
+  transform:translateY(-3px) scale(1.05);
+  box-shadow:0 8px 24px rgba(196,168,130,.3);
+}
+
+/* ── 24. GUIDE CARDS ── */
+.guide-card{border-radius:10px;transition:all .3s cubic-bezier(.25,.8,.25,1)}
+.guide-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 24px rgba(58,48,42,.06);
+  border-color:var(--accent);
+}
+
+/* ── 25. SELECTION & SCROLLBAR ── */
+::selection{background:rgba(196,168,130,.25);color:var(--deep)}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--warm);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--clay)}
+
+/* ── 26. ENHANCED MOBILE RESPONSIVE ── */
+@media(max-width:768px){
+  .store-header-inner{padding:16px 16px}
+  .store-avatar{width:56px;height:56px}
+  .store-avatar-text{font-size:18px;letter-spacing:2px}
+  .store-name h1{font-size:17px;letter-spacing:2px}
+  .store-meta{gap:12px;flex-wrap:wrap}
+  .store-meta span{font-size:11px}
+  .store-actions{gap:6px}
+  .btn-follow,.btn-outline{padding:7px 16px;font-size:11px}
+
+  .store-nav-inner{padding:0 8px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .nav-tab{padding:12px 14px;font-size:12px;white-space:nowrap;flex-shrink:0}
+
+  .banner{padding:0 16px;margin-top:12px;gap:10px}
+  .banner-main{border-radius:10px;aspect-ratio:2/1}
+  .banner-text h2{font-size:18px;letter-spacing:3px}
+  .banner-text p{font-size:11px;letter-spacing:2px}
+  .banner-text .banner-btn{padding:8px 24px;font-size:10px}
+  .banner-small{border-radius:10px}
+  .banner-small h3{font-size:12px}
+
+  .coupon-bar{padding:0 16px}
+  .coupon-inner{padding:12px 14px;gap:10px;border-radius:10px}
+  .coupon-amount{padding:8px 12px;min-width:60px}
+  .coupon-amount b{font-size:16px}
+
+  .cat-bar{padding:0 16px}
+  .cat-chip{padding:7px 16px;font-size:11px}
+
+  .grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .card{border-radius:8px}
+  .card-img{border-radius:8px 8px 0 0}
+  .card-body{padding:10px 12px 14px}
+  .card-name{font-size:12px;min-height:36px;line-height:1.5;margin-bottom:6px}
+  .card-promo{font-size:10px;padding:2px 6px}
+  .card-price b{font-size:17px}
+  .card-price del{font-size:10px}
+  .card-sales{font-size:10px}
+  .card-ship{font-size:9px;gap:4px}
+  .card-ship span{padding:1px 6px}
+
+  .bundle-grid{grid-template-columns:1fr}
+  .bundle-card{border-radius:10px}
+  .bundle-info{padding:14px 16px 18px}
+  .bundle-name{font-size:14px}
+
+  .info-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .info-card{padding:18px 14px;border-radius:8px}
+  .info-icon{font-size:24px;margin-bottom:8px}
+  .info-title{font-size:12px}
+  .info-desc{font-size:10px}
+
+  .review-strip{padding-left:16px;gap:10px}
+  .review-card{width:240px;padding:16px;border-radius:8px}
+  .review-card::before{font-size:36px}
+  .review-text{font-size:11px}
+
+  .live-wrapper{border-radius:10px}
+  .live-side{padding:20px 16px}
+  .live-title{font-size:16px}
+  .live-desc{font-size:12px;line-height:2}
+  .live-btns{flex-direction:column}
+  .live-btn,.live-btn-outline{width:100%;text-align:center}
+  .live-features{grid-template-columns:repeat(2,1fr)}
+  .live-feature{padding:10px}
+  .live-feature-icon{font-size:16px}
+  .live-feature-text{font-size:10px}
+
+  .wechat-bar{padding:18px 16px;border-radius:10px}
+  .wechat-qr{width:64px;height:64px}
+
+  .brand-inner{padding:36px 20px;border-radius:10px}
+  .brand-title{font-size:20px;letter-spacing:4px}
+  .brand-tagline{font-size:12px;letter-spacing:2px}
+  .brand-text{font-size:12.5px;line-height:2.2}
+  .brand-values{gap:16px;flex-wrap:wrap}
+  .brand-value-text{font-size:10px;letter-spacing:1px}
+
+  .guarantee-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .guarantee-card{padding:18px 14px;border-radius:8px}
+  .guarantee-icon{font-size:26px;margin-bottom:8px}
+  .guarantee-title{font-size:13px}
+  .guarantee-desc{font-size:11px}
+
+  .faq-item{border-radius:8px}
+  .faq-q{padding:14px 16px;font-size:13px}
+  .faq-a-inner{padding:0 16px 14px;font-size:12px}
+
+  .member-grid{grid-template-columns:1fr;gap:10px}
+  .member-card{padding:22px 20px;border-radius:10px}
+
+  .guide-grid{grid-template-columns:1fr;gap:10px}
+  .guide-card{padding:18px;border-radius:8px}
+
+  .shop-guide-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .shop-guide-step{padding:20px 14px;border-radius:8px}
+  .shop-guide-icon{font-size:26px;margin-bottom:10px}
+  .shop-guide-title{font-size:13px}
+  .shop-guide-desc{font-size:11px}
+
+  .section-block{padding:0 16px;margin:18px auto}
+  .section-title{font-size:15px;letter-spacing:2px}
+  .section-head{padding-bottom:10px;margin-bottom:14px}
+
+  .modal-box{border-radius:12px;width:96%}
+  .modal-info{padding:20px 16px}
+  .modal-title{font-size:15px}
+  .modal-price-row .now{font-size:24px}
+  .modal-buy-btn{padding:10px;font-size:13px}
+
+  .cart-drawer{width:92vw;border-radius:14px 0 0 14px}
+  .cart-drawer-header{padding:16px 18px}
+  .cart-items{padding:12px 18px}
+
+  .store-footer{padding:24px 16px}
+  .footer-grid{grid-template-columns:1fr;gap:24px;text-align:center}
+  .footer-col{text-align:center}
+
+  .countdown-inner{border-radius:8px;padding:12px 16px}
+  .countdown-num{padding:5px 8px;font-size:14px;min-width:30px;border-radius:4px}
+
+  .scroll-top{bottom:76px;left:14px;width:40px;height:40px;border-radius:12px}
+
+  /* Disable heavy hover effects on mobile */
+  .card:hover{transform:none;box-shadow:none}
+  .card:active{transform:scale(.98);transition:transform .1s}
+  .bundle-card:hover{transform:none;box-shadow:none}
+  .bundle-card:active{transform:scale(.98)}
+  .guarantee-card:hover{transform:none;box-shadow:none}
+  .info-card:hover{transform:none;box-shadow:none}
+}
+
+/* ── Extra small screens ── */
+@media(max-width:380px){
+  .grid{grid-template-columns:1fr}
+  .store-header-inner{flex-direction:column;align-items:flex-start}
+  .store-actions{justify-content:flex-start}
+  .guarantee-grid{grid-template-columns:1fr}
+  .info-grid{grid-template-columns:1fr}
+  .shop-guide-grid{grid-template-columns:1fr}
+  .banner-side{flex-direction:column}
+}
+
 </style>
 
 <button class="coze-float-btn" id="cozeFBtn" onclick="openCozeChat()">💬</button>
@@ -1383,16 +2536,14 @@ window.addEventListener('scroll', function(){
 <script>
 (function(){
   var BOT_ID = '7625158451891191851';
-  var TOKEN  = 'cztei_hKDPc8OC6LOtatg4Jb5is4YwiqMIcST9WoqFQtf6rHIcaBTipfd6QdTjVaN6Gs9jJ';
+  var TOKEN  = 'cztei_hdT9SEzO7T7J5ANsw41SEZPRKO4zmIWAv9Z28wuqVlEzr51OrnedIe8DgeGExiYbH';
   var sdkOK  = false;
   var client = null;
   var frameOpen = false;
 
-  // SDK CDN URLs to try
+  // Coze 官方 SDK CDN
   var URLS = [
-    'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.0.0-beta.4/libs/cn/index.js',
-    'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.0.0-beta.5/libs/cn/index.js',
-    'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.1/libs/cn/index.js'
+    'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.20/libs/cn/index.js'
   ];
 
   function boot() {
