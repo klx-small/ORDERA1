@@ -2536,29 +2536,30 @@ body{animation:pageIn .6s ease}
 <script>
 (function(){
   var BOT_ID = '7625158451891191851';
-  var TOKEN  = 'cztei_hdT9SEzO7T7J5ANsw41SEZPRKO4zmIWAv9Z28wuqVlEzr51OrnedIe8DgeGExiYbH';
+  var TOKEN  = 'pat_nlhkSMEFZ8jq7bagCoVE0vmFoUB7SGEAHeI9e7ogkS2TqR4M81SxceTaoscR8g9V';
   var sdkOK  = false;
   var client = null;
   var frameOpen = false;
 
   // Coze 官方 SDK CDN
   var URLS = [
-    'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.20/libs/cn/index.js'
+    'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js'
   ];
 
   function boot() {
     if (typeof CozeWebSDK === 'undefined') return;
     try {
       client = new CozeWebSDK.WebChatClient({
-        config: { type:'bot', bot_id:BOT_ID, isIframe:false },
-        auth:   { type:'token', token:TOKEN, onRefreshToken:async function(){return TOKEN} },
-        userInfo:{ id:'visitor', url:'https://lf-coze-web-cdn.coze.cn/obj/eden-cn/lm-lgvj/ljhwZthlaukjlkulzlp/coze/coze-logo.png', nickname:'归序顾客' },
-        ui:{
-          base:{ icon:'https://lf-coze-web-cdn.coze.cn/obj/eden-cn/lm-lgvj/ljhwZthlaukjlkulzlp/coze/chatsdk-logo.png', layout:'pc', lang:'zh-CN', zIndex:1000 },
-          header:{ isShow:true, isNeedClose:true },
-          asstBtn:{ isNeed:true },
-          footer:{ isShow:true, expressionText:'Powered by Coze' },
-          chatBot:{ title:'归序AI客服 · 小序', uploadable:true, width:390 }
+        config: {
+          bot_id: BOT_ID,
+        },
+        componentProps: {
+          title: '归序AI客服 · 小序',
+        },
+        auth: {
+          type: 'token',
+          token: TOKEN,
+          onRefreshToken: function() { return TOKEN; }
         }
       });
       sdkOK = true;
