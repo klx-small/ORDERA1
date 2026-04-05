@@ -314,49 +314,6 @@ button{font-family:inherit;cursor:pointer}
 .wechat-tag{font-size:10px;padding:3px 10px;border-radius:12px;background:rgba(196,168,130,.1);color:var(--accent);border:1px solid rgba(196,168,130,.25)}
 @media(max-width:768px){.wechat-bar{flex-direction:column;text-align:center}}
 
-/* ── AI CHAT ── */
-.chat-window{position:fixed;bottom:84px;right:24px;width:380px;background:var(--white);border:1px solid var(--sand);border-radius:16px;box-shadow:0 16px 48px rgba(42,35,32,.18);z-index:100;display:none;flex-direction:column;overflow:hidden;animation:chatSlideUp .3s ease}
-.chat-window.show{display:flex}
-@keyframes chatSlideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.chat-header{background:linear-gradient(135deg,var(--deep) 0%,#4A3D35 100%);color:var(--white);padding:16px 20px;display:flex;align-items:center;gap:12px}
-.chat-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#D4B896);display:flex;align-items:center;justify-content:center;font-size:15px;font-family:'Noto Serif SC',serif;color:var(--white);flex-shrink:0}
-.chat-header-info h4{font-size:14px;font-weight:400;letter-spacing:1px;margin-bottom:2px}
-.chat-header-info span{font-size:10px;opacity:.7}
-.chat-status-dot{width:6px;height:6px;border-radius:50%;background:#7BA67B;display:inline-block;margin-right:4px;animation:statusPulse 2s ease infinite}
-@keyframes statusPulse{0%,100%{opacity:1}50%{opacity:.4}}
-.chat-header-close{margin-left:auto;background:none;border:none;color:var(--white);font-size:20px;cursor:pointer;opacity:.7;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .2s}
-.chat-header-close:hover{opacity:1;background:rgba(255,255,255,.1)}
-.chat-messages{flex:1;padding:16px;overflow-y:auto;max-height:380px;display:flex;flex-direction:column;gap:10px;background:var(--bg);scroll-behavior:smooth}
-.chat-msg{max-width:82%;font-size:12.5px;line-height:1.85;padding:11px 15px;border-radius:14px;white-space:pre-wrap;word-break:break-word;animation:msgFadeIn .3s ease}
-@keyframes msgFadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.chat-msg.bot{align-self:flex-start;background:var(--white);color:var(--deep);border:1px solid var(--sand);border-bottom-left-radius:4px;box-shadow:0 1px 4px rgba(42,35,32,.04)}
-.chat-msg.user{align-self:flex-end;background:var(--deep);color:var(--white);border-bottom-right-radius:4px}
-.chat-msg.bot .msg-source{display:block;margin-top:8px;font-size:10px;color:var(--clay);border-top:1px solid var(--sand);padding-top:6px}
-.chat-typing-indicator{align-self:flex-start;background:var(--white);border:1px solid var(--sand);border-radius:14px;border-bottom-left-radius:4px;padding:12px 18px;display:none;gap:5px;align-items:center;animation:msgFadeIn .3s ease}
-.chat-typing-indicator.show{display:flex}
-.typing-dot{width:6px;height:6px;border-radius:50%;background:var(--clay);animation:typingBounce 1.4s ease-in-out infinite}
-.typing-dot:nth-child(2){animation-delay:.2s}
-.typing-dot:nth-child(3){animation-delay:.4s}
-@keyframes typingBounce{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-6px);opacity:1}}
-.chat-quick-btns{padding:10px 16px;display:flex;flex-wrap:wrap;gap:6px;background:var(--bg);border-top:1px solid var(--sand)}
-.chat-quick-btn{font-size:11px;padding:6px 14px;border-radius:16px;border:1px solid var(--warm);background:var(--white);color:var(--bark);cursor:pointer;transition:all .2s;letter-spacing:.5px}
-.chat-quick-btn:hover{background:var(--deep);color:var(--white);border-color:var(--deep)}
-.chat-input-row{display:flex;border-top:1px solid var(--sand);padding:10px 14px;gap:8px;background:var(--white);align-items:center}
-.chat-input-row input{flex:1;border:1px solid var(--sand);padding:9px 14px;border-radius:22px;font-size:12.5px;outline:none;background:var(--cream);transition:border .2s,box-shadow .2s}
-.chat-input-row input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(196,168,130,.12)}
-.chat-input-row button{padding:9px 18px;background:var(--deep);color:var(--white);border:none;border-radius:22px;font-size:12px;cursor:pointer;transition:all .2s;letter-spacing:1px}
-.chat-input-row button:hover{background:var(--accent)}
-.chat-input-row button:disabled{background:var(--sand);color:var(--bark);cursor:default}
-.chat-clear-btn{background:none;border:none;color:var(--clay);font-size:11px;cursor:pointer;padding:4px 8px;border-radius:8px;transition:all .2s;white-space:nowrap}
-.chat-clear-btn:hover{color:var(--deep);background:var(--cream)}
-.chat-powered{text-align:center;padding:6px;font-size:9px;color:var(--clay);letter-spacing:.5px;background:var(--white);border-top:1px solid rgba(232,223,212,.5)}
-
-/* ── CHAT BUTTON ── */
-.chat-btn{position:fixed;bottom:24px;right:24px;width:52px;height:52px;border-radius:50%;background:var(--deep);color:var(--white);border:none;font-size:20px;box-shadow:0 4px 16px rgba(58,48,42,.2);z-index:80;transition:all .2s;display:flex;align-items:center;justify-content:center}
-.chat-btn:hover{background:var(--accent);transform:scale(1.05)}
-.chat-tooltip{position:fixed;bottom:84px;right:24px;background:var(--white);border:1px solid var(--sand);border-radius:8px;padding:12px 16px;font-size:12px;color:var(--deep);box-shadow:0 4px 16px rgba(58,48,42,.1);z-index:80;display:none;max-width:200px}
-.chat-tooltip.show{display:block}
-.chat-tooltip::after{content:'';position:absolute;bottom:-6px;right:20px;width:12px;height:12px;background:var(--white);border-right:1px solid var(--sand);border-bottom:1px solid var(--sand);transform:rotate(45deg)}
 
 /* ── SHOPPING CART ── */
 .cart-icon-wrap{position:relative;cursor:pointer;display:flex;align-items:center;gap:6px;padding:8px 16px;background:var(--cream);border:1px solid var(--sand);border-radius:20px;transition:all .2s}
@@ -513,7 +470,7 @@ button{font-family:inherit;cursor:pointer}
         <span class="cart-badge" id="cartBadge" style="display:none">0</span>
       </div>
       <button class="btn-follow" id="followBtn" onclick="toggleFollow()">+ 关注店铺</button>
-      <button class="btn-outline" onclick="toggleChat()">联系客服</button>
+      <button class="btn-outline" onclick="openCozeChat()">联系客服</button>
     </div>
   </div>
 </div>
@@ -731,7 +688,7 @@ button{font-family:inherit;cursor:pointer}
         <div class="live-time">⏰ 每晚 20:00 - 22:00 准时开播</div>
         <div class="live-btns">
           <button class="live-btn" onclick="this.textContent='已预约 ✓';this.style.background='var(--warm)';this.style.color='var(--deep)'">预约直播</button>
-          <button class="live-btn-outline" onclick="toggleChat()">咨询客服</button>
+          <button class="live-btn-outline" onclick="openCozeChat()">咨询客服</button>
         </div>
       </div>
     </div>
@@ -939,40 +896,6 @@ button{font-family:inherit;cursor:pointer}
   </div>
 </div>
 
-<!-- AI CHAT WINDOW (通义千问 API) -->
-<div class="chat-window" id="chatWindow">
-  <div class="chat-header">
-    <div class="chat-avatar">序</div>
-    <div class="chat-header-info">
-      <h4>归序·AI客服</h4>
-      <span><span class="chat-status-dot"></span>由通义千问大模型驱动 · 24h在线</span>
-    </div>
-    <button class="chat-header-close" onclick="toggleChat()">✕</button>
-  </div>
-  <div class="chat-messages" id="chatMessages">
-    <div class="chat-msg bot">您好！我是归序AI客服小序 🍃 我由通义千问大模型驱动，可以智能回答您关于商品、物流、退换货等任何问题。请问有什么可以帮您的？</div>
-  </div>
-  <div class="chat-typing-indicator" id="chatTyping">
-    <div class="typing-dot"></div>
-    <div class="typing-dot"></div>
-    <div class="typing-dot"></div>
-  </div>
-  <div class="chat-quick-btns">
-    <div class="chat-quick-btn" onclick="quickChat('帮我推荐适合书桌整理的产品')">书桌整理推荐</div>
-    <div class="chat-quick-btn" onclick="quickChat('你们发货时效和物流方式是什么？')">发货时效</div>
-    <div class="chat-quick-btn" onclick="quickChat('怎么申请退换货？有运费险吗？')">退换货</div>
-    <div class="chat-quick-btn" onclick="quickChat('目前有什么优惠活动和优惠券？')">优惠活动</div>
-    <div class="chat-quick-btn" onclick="quickChat('怎么加你们微信？有什么福利？')">加微信</div>
-    <div class="chat-quick-btn" onclick="quickChat('直播间什么时候开播？')">直播时间</div>
-  </div>
-  <div class="chat-input-row">
-    <input type="text" id="chatInput" placeholder="输入您的问题..." onkeyup="if(event.key==='Enter'&&!event.shiftKey)sendChat()">
-    <button id="chatSendBtn" onclick="sendChat()">发送</button>
-    <button class="chat-clear-btn" onclick="clearChat()" title="清空对话">清空</button>
-  </div>
-  <div class="chat-powered">Powered by 通义千问 Qwen · 归序 ORDERA</div>
-</div>
-
 <!-- FOOTER -->
 <div class="store-footer">
   <div class="footer-grid">
@@ -987,11 +910,11 @@ button{font-family:inherit;cursor:pointer}
     </div>
     <div class="footer-col">
       <h4>顾客服务</h4>
-      <a href="#guarantee">全场包邮</a><a href="#guarantee">24-48h发货</a><a href="#guarantee">7天无理由</a><a href="#faq">常见问题</a><a href="javascript:toggleChat()">AI客服</a>
+      <a href="#guarantee">全场包邮</a><a href="#guarantee">24-48h发货</a><a href="#guarantee">7天无理由</a><a href="#faq">常见问题</a><a href="javascript:openCozeChat()">AI客服</a>
     </div>
     <div class="footer-col">
       <h4>关于归序</h4>
-      <a href="#brand">品牌故事</a><a href="#">加微信领券</a><a href="#">小红书关注</a><a href="javascript:toggleChat()">AI客服咨询</a><a href="tel:15388120643">📞 15388120643</a>
+      <a href="#brand">品牌故事</a><a href="#">加微信领券</a><a href="#">小红书关注</a><a href="javascript:openCozeChat()">AI客服咨询</a><a href="tel:15388120643">📞 15388120643</a>
     </div>
   </div>
 </div>
@@ -1021,13 +944,6 @@ button{font-family:inherit;cursor:pointer}
     <div class="cart-tip">✓ 全场包邮 · ✓ 7天无理由 · ✓ 运费险</div>
   </div>
 </div>
-
-<!-- CHAT BUTTON -->
-<div class="chat-tooltip" id="chatTooltip">
-  <div style="font-weight:500;margin-bottom:4px">归序·AI客服在线 🍃</div>
-  <div style="font-size:11px;color:var(--bark)">AI客服24小时智能应答<br>人工客服 9:00-22:00<br>📞 15388120643</div>
-</div>
-<button class="chat-btn" onclick="toggleChat()">💬</button>
 
 <!-- SCROLL TO TOP -->
 <button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">↑</button>
@@ -1194,209 +1110,6 @@ function playLiveVideo(){
 
 // ── FAQ ──
 function toggleFaq(el){el.classList.toggle('open')}
-
-// ── AI CHAT (通义千问 API 接入) ──
-let chatOpen=false;
-let chatLoading=false;
-// ⬇️ 对话历史，用于多轮对话
-let chatHistory=[];
-
-// ========================================
-// 🔑 重要：在这里填入你的通义千问 API Key
-// 获取方法见下方注释
-// ========================================
-const QWEN_API_KEY = 'sk-d76a10e6a7ab41e0ae98f18e39bb7a6a'; // 替换为你的真实 API Key
-const QWEN_API_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions';
-const QWEN_MODEL = 'qwen-plus'; // 推荐模型，也可用 qwen-turbo(更快更便宜) 或 qwen-max(更强)
-
-// ========================================
-// 📋 系统提示词 - 定义AI客服的角色和知识库
-// 你可以根据实际情况修改这段文字
-// ========================================
-const SYSTEM_PROMPT = `你是「归序 ORDERA」淘宝旗舰店的AI客服，名叫"小序"。你温柔、专业、有耐心，说话风格简洁自然，偶尔使用emoji让对话更亲切。
-
-## 店铺信息
-- 品牌：归序 ORDERA（有序，是日常的浪漫）
-- 主营：家居收纳用品（桌面收纳、卧室收纳、旅行收纳、厨房收纳、衣柜收纳）
-- 所在地：四川宜宾
-- 客服电话：15388120643
-- 微信：添加微信好友可领¥5无门槛券，加入私域社群获取新品抢先看、老客专属折扣
-
-## 在售商品及价格
-1. 静谧·桌面三格收纳盒 ¥49.9（原¥69.9）热销2847件，拍2件享9折
-2. 拾光·化妆台旋转收纳架 ¥59.9（原¥89.9）送化妆镜
-3. 行旅·旅行分装瓶套装6件套 ¥39.9（原¥59.9）买即送收纳袋
-4. 归一·衣柜可折叠收纳格 ¥35.9（原¥49.9）
-5. 留白·厨房台面调料置物架 ¥69.9（原¥99.9）限时直降¥30
-6. 清欢·桌下数据线收纳盒 ¥29.9（原¥39.9）热销4231件
-7. 安栖·床头挂袋收纳篮 ¥45.9（原¥59.9）新品尝鲜价
-8. 小憩·抽屉分隔板4片装 ¥25.9（原¥35.9）热销5678件
-9. 拂晓·梳妆台首饰收纳盒 ¥55.9（原¥79.9）新品立减¥10
-10. 云栖·旅行内衣收纳包 ¥35.9（原¥49.9）
-11. 拾简·厨房冰箱侧挂架 ¥42.9（原¥59.9）新品价
-12. 素履·鞋柜省空间收纳架 ¥32.9（原¥45.9）
-
-## 组合套装
-- 书房焕新套装（收纳盒+数据线收纳+分隔板）¥89.9（省¥15.8）
-- 卧室整理三件套（收纳架+床头挂袋+首饰盒）¥139.9（省¥21.8）
-- 出行必备两件套（分装套装+内衣收纳包）¥65.9（省¥9.9）
-
-## 优惠信息
-- 满39减5、满79减10、满149减20
-- 组合套装额外省¥10-20
-- 新品立减¥5-10
-- 关注店铺可领专属优惠券
-
-## 服务保障
-- 全国包邮（港澳台及偏远地区除外）
-- 24-48小时内发货（1688合作仓库直发）
-- 物流：菜鸟/中通，全国3-5天可达
-- 7天无理由退换货
-- 全店已开通运费险，退货运费由保险承担
-- 可开电子普通发票
-
-## 直播信息
-- 归序AI数字人直播间，每晚20:00-22:00
-- 由 Seedance 2.0 提供技术支持
-- 直播间下单享专属折扣
-
-## 会员体系
-- 银卡：累计消费满¥200，全场9.5折
-- 金卡：累计消费满¥500，全场9折+新品优先体验
-- 黑卡：累计消费满¥1000，全场8.5折+限定款优先购买+全年免费退换货
-
-## 回答规则
-- 回答要简洁（控制在150字以内），不要太长
-- 如果客户问到超出你知识范围的问题，引导他们拨打客服电话或加微信
-- 如果客户想买东西，推荐合适的商品并告知价格
-- 不要编造不存在的商品或信息
-- 注意：本店场景展示图由AI生成，实际商品以详情页实拍图为准`;
-
-function toggleChat(){
-  chatOpen=!chatOpen;
-  document.getElementById('chatWindow').classList.toggle('show',chatOpen);
-  document.getElementById('chatTooltip').classList.remove('show');
-  if(chatOpen) document.getElementById('chatInput').focus();
-}
-
-// 调用通义千问API
-async function callQwenAPI(userMessage){
-  // 将用户消息加入历史
-  chatHistory.push({role:'user', content:userMessage});
-
-  // 只保留最近10轮对话，避免超出token限制
-  const recentHistory = chatHistory.slice(-20);
-
-  const requestBody = {
-    model: QWEN_MODEL,
-    messages: [
-      {role:'system', content: SYSTEM_PROMPT},
-      ...recentHistory
-    ],
-    temperature: 0.7,
-    max_tokens: 500,
-    top_p: 0.9
-  };
-
-  try {
-    const response = await fetch(QWEN_API_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + QWEN_API_KEY
-      },
-      body: JSON.stringify(requestBody)
-    });
-
-    if(!response.ok){
-      const errData = await response.json().catch(()=>({}));
-      console.error('API Error:', response.status, errData);
-      // 如果是API Key未配置
-      if(QWEN_API_KEY === 'sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'){
-        return '⚠️ AI客服尚未配置API Key。\n\n请在代码中将 QWEN_API_KEY 替换为您的真实通义千问API Key。\n\n获取方式：\n1. 访问 bailian.console.aliyun.com\n2. 注册/登录阿里云账号\n3. 开通百炼服务\n4. 创建API Key\n\n目前您也可以拨打客服电话 📞 15388120643 咨询~';
-      }
-      if(response.status === 401){
-        return '⚠️ API Key无效，请检查您的通义千问API Key是否正确。如需帮助，请拨打客服电话 📞 15388120643';
-      }
-      return '抱歉，AI客服暂时遇到问题，请稍后再试或拨打客服电话 📞 15388120643 💬';
-    }
-
-    const data = await response.json();
-    const reply = data.choices?.[0]?.message?.content || '抱歉，我没有理解您的问题，请换个方式描述或拨打客服电话 📞 15388120643';
-
-    // 将AI回复加入历史
-    chatHistory.push({role:'assistant', content:reply});
-
-    return reply;
-  } catch(err){
-    console.error('Network Error:', err);
-    return '网络连接异常，请检查网络后重试，或拨打客服电话 📞 15388120643 💬';
-  }
-}
-
-function quickChat(q){
-  if(chatLoading) return;
-  addChatMsg(q,'user');
-  handleAIReply(q);
-}
-
-async function sendChat(){
-  const input=document.getElementById('chatInput');
-  const msg=input.value.trim();
-  if(!msg || chatLoading)return;
-  addChatMsg(msg,'user');
-  input.value='';
-  handleAIReply(msg);
-}
-
-async function handleAIReply(userMsg){
-  chatLoading=true;
-  const sendBtn=document.getElementById('chatSendBtn');
-  sendBtn.disabled=true;
-  sendBtn.textContent='...';
-
-  // 显示打字指示器
-  const typingEl=document.getElementById('chatTyping');
-  typingEl.classList.add('show');
-  scrollChatToBottom();
-
-  // 调用通义千问API
-  const reply = await callQwenAPI(userMsg);
-
-  // 隐藏打字指示器
-  typingEl.classList.remove('show');
-
-  // 添加AI回复
-  addChatMsg(reply, 'bot');
-
-  chatLoading=false;
-  sendBtn.disabled=false;
-  sendBtn.textContent='发送';
-}
-
-function addChatMsg(text,type){
-  const box=document.getElementById('chatMessages');
-  const div=document.createElement('div');
-  div.className='chat-msg '+type;
-
-  // 简单的文本格式化：将\n转为换行
-  div.textContent=text;
-
-  box.appendChild(div);
-  scrollChatToBottom();
-}
-
-function scrollChatToBottom(){
-  const box=document.getElementById('chatMessages');
-  requestAnimationFrame(()=>{box.scrollTop=box.scrollHeight});
-}
-
-function clearChat(){
-  if(!confirm('确定要清空对话记录吗？'))return;
-  chatHistory=[];
-  const box=document.getElementById('chatMessages');
-  box.innerHTML='<div class="chat-msg bot">您好！我是归序AI客服小序 🍃 我由通义千问大模型驱动，可以智能回答您关于商品、物流、退换货等任何问题。请问有什么可以帮您的？</div>';
-}
 
 // ── PRODUCT MODAL ──
 const productDetails={
@@ -1587,9 +1300,6 @@ function checkout(){
   alert(msg);
 }
 
-// Show chat tooltip briefly on load
-setTimeout(()=>{document.getElementById('chatTooltip').classList.add('show')},2000);
-setTimeout(()=>{document.getElementById('chatTooltip').classList.remove('show')},5000);
 
 // ── COUNTDOWN TIMER ──
 (function(){
@@ -1648,6 +1358,94 @@ window.addEventListener('scroll', function(){
     }
   }, 5000);
 })();
+</script>
+
+<!-- ═══ Coze AI 客服 ═══ -->
+<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.1/libs/cn/index.js"></script>
+<script>
+// 全局客户端实例
+var cozeClient = new CozeWebSDK.WebChatClient({
+  config: {
+    type: 'bot',
+    bot_id: '7625158451891191851',
+    isIframe: false,
+  },
+  auth: {
+    type: 'token',
+    token: 'cztei_hKDPc8OC6LOtatg4Jb5is4YwiqMIcST9WoqFQtf6rHIcaBTipfd6QdTjVaN6Gs9jJ',
+    onRefreshToken: async () => 'cztei_hKDPc8OC6LOtatg4Jb5is4YwiqMIcST9WoqFQtf6rHIcaBTipfd6QdTjVaN6Gs9jJ'
+  },
+  userInfo: {
+    id: 'guixu-visitor',
+    url: 'https://lf-coze-web-cdn.coze.cn/obj/eden-cn/lm-lgvj/ljhwZthlaukjlkulzlp/coze/coze-logo.png',
+    nickname: '归序顾客',
+  },
+  ui: {
+    base: {
+      icon: 'https://lf-coze-web-cdn.coze.cn/obj/eden-cn/lm-lgvj/ljhwZthlaukjlkulzlp/coze/chatsdk-logo.png',
+      layout: 'pc',
+      lang: 'zh-CN',
+      zIndex: 1000,
+    },
+    header: {
+      isShow: true,
+      isNeedClose: true,
+    },
+    asstBtn: {
+      isNeed: true,
+    },
+    footer: {
+      isShow: true,
+      expressionText: 'Powered by Coze · 归序 ORDERA',
+    },
+    chatBot: {
+      title: '归序AI客服 · 小序',
+      uploadable: true,
+      width: 390,
+    },
+  },
+});
+
+// ── 供页面按钮调用的全局函数 ──
+function openCozeChat() {
+  try {
+    // 方法1: SDK 自带 API
+    if (cozeClient) {
+      if (typeof cozeClient.showChatBot === 'function') { cozeClient.showChatBot(); return; }
+      if (typeof cozeClient.open === 'function') { cozeClient.open(); return; }
+      if (typeof cozeClient.show === 'function') { cozeClient.show(); return; }
+    }
+  } catch(e) { console.log('Coze SDK method failed:', e); }
+
+  // 方法2: 遍历 DOM 查找 Coze 按钮并点击
+  try {
+    // 搜索所有 iframe / shadow host
+    var allEls = document.querySelectorAll('div, button, iframe');
+    for (var i = 0; i < allEls.length; i++) {
+      var el = allEls[i];
+      var cls = (el.className || '').toString().toLowerCase();
+      var id = (el.id || '').toLowerCase();
+      if (cls.indexOf('coze') !== -1 || id.indexOf('coze') !== -1) {
+        if (el.tagName === 'BUTTON' || el.style.cursor === 'pointer' || el.getAttribute('role') === 'button') {
+          el.click(); return;
+        }
+        // 如果是容器，找里面的可点击元素
+        var inner = el.querySelector('button, [role="button"], [style*="cursor: pointer"], [style*="cursor:pointer"]');
+        if (inner) { inner.click(); return; }
+      }
+    }
+    // 方法3: 找固定在右下角的浮动按钮（Coze SDK 默认位置）
+    var fixedEls = document.querySelectorAll('div[style*="position: fixed"], div[style*="position:fixed"]');
+    for (var j = 0; j < fixedEls.length; j++) {
+      var fe = fixedEls[j];
+      var rect = fe.getBoundingClientRect();
+      // 右下角区域的浮动元素
+      if (rect.right > window.innerWidth - 100 && rect.bottom > window.innerHeight - 100 && rect.width < 200 && rect.height < 200) {
+        fe.click(); return;
+      }
+    }
+  } catch(e2) { console.log('Coze button click fallback failed:', e2); }
+}
 </script>
 </body>
 </html>
