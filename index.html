@@ -1950,668 +1950,453 @@ window.addEventListener('scroll', function(){
 })();
 </script>
 
-<!-- Coze AI Chat -->
+<!-- Local Chat Widget Styles -->
 <style>
-.coze-float-btn{position:fixed;bottom:24px;right:24px;width:52px;height:52px;border-radius:50%;background:#3A302A;color:#FDFBF8;border:none;font-size:20px;box-shadow:0 4px 16px rgba(58,48,42,.25);z-index:999;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
-.coze-float-btn:hover{background:#C4A882;transform:scale(1.05)}
-.coze-float-btn.sdk-ready{display:none}
-.coze-chat-frame{position:fixed;bottom:88px;right:24px;width:390px;height:600px;max-width:calc(100vw - 48px);max-height:calc(100vh - 120px);border-radius:16px;overflow:hidden;box-shadow:0 16px 48px rgba(42,35,32,.22);z-index:1000;display:none;background:#fff;border:1px solid #E8DFD4}
-.coze-chat-frame.open{display:block;animation:cfadeIn .3s ease}
-.coze-chat-frame iframe{width:100%;height:100%;border:none}
-.coze-chat-frame .x-btn{position:absolute;top:10px;right:12px;width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,.06);border:none;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;color:#666}
-.coze-chat-frame .x-btn:hover{background:rgba(0,0,0,.12)}
-@keyframes cfadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:480px){.coze-chat-frame{right:8px;bottom:76px;width:calc(100vw - 16px);height:calc(100vh - 100px)}}
+/* ── Local Chat Widget — Optimized ── */
+.chat-float-btn{position:fixed;bottom:24px;right:24px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--deep),#4A3D35);color:var(--white);border:none;font-size:22px;box-shadow:0 6px 24px rgba(58,48,42,.3);z-index:999;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s cubic-bezier(.4,0,.2,1)}
+.chat-float-btn:hover{background:linear-gradient(135deg,var(--accent),#D4B896);transform:scale(1.1) rotate(-5deg);box-shadow:0 8px 28px rgba(196,168,130,.35)}
+.chat-float-btn.hide{transform:scale(0) rotate(45deg);opacity:0;pointer-events:none}
+.chat-float-btn .chat-pulse{position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--accent);animation:chatPulse 2s ease-out infinite;opacity:0}
+@keyframes chatPulse{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.5);opacity:0}}
+.chat-float-btn .chat-unread{position:absolute;top:-2px;right:-2px;width:18px;height:18px;border-radius:50%;background:var(--red);color:#fff;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center;border:2px solid var(--bg);animation:unreadPop .3s ease}
+@keyframes unreadPop{from{transform:scale(0)}to{transform:scale(1)}}
 
+.local-chat-panel{position:fixed;bottom:88px;right:24px;width:400px;max-width:calc(100vw - 48px);height:600px;max-height:calc(100vh - 120px);border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(42,35,32,.25),0 0 0 1px rgba(232,223,212,.5);z-index:1000;display:none;flex-direction:column;background:var(--cream)}
+.local-chat-panel.open{display:flex;animation:lcIn .35s cubic-bezier(.4,0,.2,1)}
+@keyframes lcIn{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
 
-/* ══════════════════════════════════════════
-   UI OPTIMIZATION — 全面界面优化
-   ══════════════════════════════════════════ */
+.lc-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:linear-gradient(135deg,var(--deep),#4A3D35);color:var(--white);flex-shrink:0;position:relative;overflow:hidden}
+.lc-header::after{content:'';position:absolute;top:-30px;right:-20px;width:100px;height:100px;border-radius:50%;background:rgba(196,168,130,.08)}
+.lc-header-left{display:flex;align-items:center;gap:12px;z-index:1}
+.lc-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--warm));display:flex;align-items:center;justify-content:center;font-family:'Noto Serif SC',serif;font-size:18px;font-weight:200;color:var(--deep);flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.lc-header-info{}
+.lc-header-name{font-size:15px;font-weight:500;letter-spacing:1.5px}
+.lc-header-status{font-size:10px;opacity:.7;margin-top:3px;display:flex;align-items:center;gap:4px}
+.lc-header-status::before{content:'';width:6px;height:6px;border-radius:50%;background:#7BA67B;display:inline-block;animation:statusPulse 2s ease infinite}
+@keyframes statusPulse{0%,100%{opacity:1}50%{opacity:.4}}
+.lc-close{background:rgba(255,255,255,.08);border:none;color:rgba(255,255,255,.6);font-size:16px;cursor:pointer;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .2s;z-index:1}
+.lc-close:hover{background:rgba(255,255,255,.18);color:#fff;transform:rotate(90deg)}
 
-/* ── 1. PAGE-LEVEL POLISH ── */
-body{
-  background:var(--bg);
-  background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='60' height='60' filter='url(%23n)' opacity='.018'/%3E%3C/svg%3E");
-}
+.lc-body{flex:1;overflow-y:auto;padding:16px 16px 8px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth}
+.lc-body::-webkit-scrollbar{width:4px}
+.lc-body::-webkit-scrollbar-thumb{background:var(--warm);border-radius:2px}
+.lc-date-divider{text-align:center;font-size:10px;color:var(--clay);padding:8px 0 4px;letter-spacing:1px}
 
-/* ── Page entrance ── */
-@keyframes pageIn{from{opacity:0}to{opacity:1}}
-body{animation:pageIn .6s ease}
+.lc-msg{display:flex;flex-direction:column;max-width:88%;animation:lcMsgIn .35s cubic-bezier(.4,0,.2,1)}
+.lc-msg.bot{align-self:flex-start}
+.lc-msg.user{align-self:flex-end}
+@keyframes lcMsgIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.lc-bubble{padding:12px 16px;border-radius:14px;font-size:13px;line-height:1.95;letter-spacing:.3px;position:relative}
+.lc-msg.bot .lc-bubble{background:var(--white);color:var(--deep);border:1px solid rgba(232,223,212,.6);border-top-left-radius:4px;box-shadow:0 1px 4px rgba(58,48,42,.04)}
+.lc-msg.user .lc-bubble{background:linear-gradient(135deg,var(--deep),#4A3D35);color:var(--white);border-top-right-radius:4px;box-shadow:0 2px 8px rgba(58,48,42,.15)}
+.lc-time{font-size:10px;color:var(--clay);margin-top:4px;padding:0 2px}
+.lc-msg.user .lc-time{text-align:right}
 
-/* ── 2. HEADER ENHANCEMENT ── */
-.store-header{
-  background:linear-gradient(180deg,var(--white) 0%,rgba(253,251,248,.95) 100%);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-}
-.store-avatar{
-  background:linear-gradient(135deg,var(--sand) 0%,var(--warm) 50%,var(--accent) 100%);
-  box-shadow:0 4px 16px rgba(196,168,130,.25);
-  transition:transform .3s ease;
-}
-.store-avatar:hover{transform:scale(1.06) rotate(-2deg)}
-.store-badge{
-  background:linear-gradient(135deg,var(--accent),#D4B896);
-  box-shadow:0 2px 6px rgba(196,168,130,.3);
-}
-.btn-follow{border-radius:4px;font-weight:500;transition:all .25s cubic-bezier(.4,0,.2,1)}
-.btn-follow:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(196,168,130,.3)}
-.btn-outline{border-radius:4px;transition:all .25s cubic-bezier(.4,0,.2,1)}
-.btn-outline:hover{transform:translateY(-1px);box-shadow:0 2px 8px rgba(58,48,42,.08)}
+/* Product card in chat */
+.lc-product-card{display:flex;gap:10px;padding:10px;background:rgba(246,241,235,.6);border-radius:10px;margin-top:8px;border:1px solid var(--sand);cursor:pointer;transition:all .2s}
+.lc-product-card:hover{border-color:var(--accent);box-shadow:0 2px 8px rgba(196,168,130,.12);transform:translateY(-1px)}
+.lc-product-card img{width:56px;height:56px;border-radius:6px;object-fit:cover;flex-shrink:0}
+.lc-product-card-info{flex:1;min-width:0}
+.lc-product-card-name{font-size:12px;color:var(--deep);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.lc-product-card-price{font-size:15px;font-weight:700;color:var(--red);margin-top:4px}
+.lc-product-card-price del{font-size:11px;color:var(--clay);font-weight:400;margin-left:6px}
 
-/* ── 3. NAV ENHANCEMENT ── */
-.store-nav{
-  transition:box-shadow .3s ease;
-  background:rgba(253,251,248,.96);
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
-}
-.store-nav.scrolled{box-shadow:0 4px 20px rgba(58,48,42,.08)}
-.nav-tab{position:relative}
-.nav-tab::after{
-  content:'';position:absolute;bottom:0;left:50%;width:0;height:2px;
-  background:var(--accent);transition:all .3s cubic-bezier(.4,0,.2,1);
-  transform:translateX(-50%);border-radius:1px;
-}
-.nav-tab:hover::after,.nav-tab.active::after{width:60%}
-.nav-tab.active{border-bottom-color:transparent}
-.nav-search input{border-radius:20px;padding:7px 16px;transition:all .3s}
-.nav-search input:focus{width:220px;box-shadow:0 0 0 3px rgba(196,168,130,.1)}
-.nav-search button{border-radius:0 20px 20px 0;padding:7px 16px;transition:background .2s}
-.nav-search button:hover{background:var(--accent)}
+/* Follow-up quick buttons */
+.lc-followup{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.lc-followup button{padding:5px 12px;border-radius:14px;border:1px solid rgba(196,168,130,.4);background:rgba(253,251,248,.8);color:var(--earth);font-size:11px;cursor:pointer;transition:all .2s;letter-spacing:.3px}
+.lc-followup button:hover{border-color:var(--accent);color:var(--accent);background:var(--white);transform:translateY(-1px)}
 
-/* ── 4. BANNER ENHANCEMENT ── */
-.banner-main{
-  border-radius:12px;
-  background:
-    radial-gradient(ellipse at 20% 80%, rgba(196,168,130,.15) 0%, transparent 60%),
-    radial-gradient(ellipse at 80% 20%, rgba(232,213,192,.2) 0%, transparent 50%),
-    linear-gradient(135deg,var(--sand) 0%,var(--warm) 40%,var(--cream) 100%);
-  position:relative;
-}
-.banner-main::before{
-  content:'';position:absolute;inset:0;border-radius:12px;
-  background:url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='20' r='.5' fill='%23B5A08E' opacity='.12'/%3E%3C/svg%3E");
-  pointer-events:none;
-}
-.banner-text h2{
-  text-shadow:0 2px 16px rgba(246,241,235,.6),0 0 60px rgba(196,168,130,.15);
-}
-.banner-text .banner-btn{
-  border-radius:24px;padding:10px 36px;
-  backdrop-filter:blur(4px);background:rgba(253,251,248,.3);
-  transition:all .3s cubic-bezier(.4,0,.2,1);
-}
-.banner-text .banner-btn:hover{
-  background:var(--deep);color:var(--white);
-  transform:translateY(-2px);box-shadow:0 8px 24px rgba(58,48,42,.2);
-}
-.banner-small{border-radius:12px;transition:transform .3s ease,box-shadow .3s ease}
-.banner-small:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(58,48,42,.08)}
+/* Initial quick buttons */
+.lc-quick-wrap{display:flex;flex-wrap:wrap;gap:8px;padding:6px 0}
+.lc-quick-title{width:100%;font-size:11px;color:var(--bark);margin-bottom:4px;letter-spacing:.5px}
+.lc-quick{padding:7px 15px;border-radius:18px;border:1px solid var(--warm);background:var(--white);color:var(--earth);font-size:12px;cursor:pointer;transition:all .25s;letter-spacing:.5px}
+.lc-quick:hover{border-color:var(--accent);color:var(--accent);background:rgba(196,168,130,.06);transform:translateY(-1px);box-shadow:0 2px 8px rgba(196,168,130,.12)}
 
-/* ── 5. COUPON ENHANCEMENT ── */
-.coupon{border-radius:8px;transition:transform .2s ease,box-shadow .2s ease}
-.coupon:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(196,168,130,.15)}
-.coupon-get{border-radius:0 8px 8px 0;font-weight:600;letter-spacing:2px}
+/* Satisfaction rating */
+.lc-rating{display:flex;align-items:center;gap:2px;margin-top:6px}
+.lc-rating button{background:none;border:none;font-size:16px;cursor:pointer;padding:2px;opacity:.35;transition:all .2s;filter:grayscale(1)}
+.lc-rating button:hover,.lc-rating button.active{opacity:1;transform:scale(1.15);filter:grayscale(0)}
+.lc-rating-label{font-size:10px;color:var(--clay);margin-left:6px;opacity:0;transition:opacity .3s}
+.lc-rating.rated .lc-rating-label{opacity:1}
 
-/* ── 6. PRODUCT CARD ENHANCEMENT ── */
-.card{
-  border-radius:10px;
-  border:1px solid rgba(232,223,212,.4);
-  transition:all .4s cubic-bezier(.25,.8,.25,1);
-}
-.card:hover{
-  transform:translateY(-8px);
-  box-shadow:
-    0 20px 40px rgba(58,48,42,.1),
-    0 4px 8px rgba(58,48,42,.04);
-  border-color:rgba(196,168,130,.3);
-}
-.card-img{border-radius:10px 10px 0 0;position:relative}
-.card-img::after{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:40px;
-  background:linear-gradient(to top,rgba(253,251,248,.6),transparent);
-  pointer-events:none;opacity:0;transition:opacity .3s;
-}
-.card:hover .card-img::after{opacity:1}
-.card-img img{transition:transform .5s cubic-bezier(.25,.8,.25,1)}
-.card:hover .card-img img{transform:scale(1.08)}
-.card-tag{border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.1)}
-.card-tag.hot{background:linear-gradient(135deg,#C75C5C,#D4796A)}
-.card-tag.new{background:linear-gradient(135deg,var(--accent),#D4B896)}
-.card-body{padding:14px 16px 18px}
-.card-price b{transition:color .2s}
-.card:hover .card-price b{color:#B84A4A}
-.card-ship span{transition:all .2s;font-size:10px}
-.card:hover .card-ship span{border-color:var(--accent);color:var(--accent)}
-.card-promo{border-radius:4px;transition:all .2s}
+.lc-footer{display:flex;gap:8px;padding:12px 16px 14px;background:var(--white);border-top:1px solid rgba(232,223,212,.5);flex-shrink:0}
+.lc-footer input{flex:1;padding:10px 16px;border:1px solid var(--sand);border-radius:22px;font-size:13px;outline:none;background:var(--cream);color:var(--deep);transition:all .25s}
+.lc-footer input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(196,168,130,.1);background:var(--white)}
+.lc-send{padding:9px 20px;background:linear-gradient(135deg,var(--deep),#4A3D35);color:var(--white);border:none;border-radius:22px;font-size:12px;cursor:pointer;letter-spacing:1px;transition:all .25s;flex-shrink:0}
+.lc-send:hover{background:linear-gradient(135deg,var(--accent),#D4B896);transform:translateY(-1px);box-shadow:0 3px 10px rgba(196,168,130,.25)}
 
-/* Card stagger animation */
-.grid .card{opacity:0;transform:translateY(24px);animation:cardIn .5s ease forwards}
-@keyframes cardIn{to{opacity:1;transform:translateY(0)}}
-.grid .card:nth-child(1){animation-delay:.05s}
-.grid .card:nth-child(2){animation-delay:.1s}
-.grid .card:nth-child(3){animation-delay:.15s}
-.grid .card:nth-child(4){animation-delay:.2s}
-.grid .card:nth-child(5){animation-delay:.25s}
-.grid .card:nth-child(6){animation-delay:.3s}
-.grid .card:nth-child(7){animation-delay:.35s}
-.grid .card:nth-child(8){animation-delay:.4s}
+.lc-typing{display:flex;gap:5px;padding:10px 14px;align-items:center}
+.lc-typing span{width:7px;height:7px;border-radius:50%;background:var(--clay);animation:lcDot .9s ease infinite}
+.lc-typing span:nth-child(2){animation-delay:.15s}
+.lc-typing span:nth-child(3){animation-delay:.3s}
+@keyframes lcDot{0%,100%{opacity:.25;transform:translateY(0)}50%{opacity:1;transform:translateY(-5px)}}
 
-/* ── 7. BUNDLE ENHANCEMENT ── */
-.bundle-card{border-radius:10px;transition:all .35s cubic-bezier(.25,.8,.25,1)}
-.bundle-card:hover{
-  box-shadow:0 12px 32px rgba(58,48,42,.1);
-  transform:translateY(-4px);border-color:var(--accent);
-}
-.bundle-imgs{border-radius:10px 10px 0 0;transition:background .3s}
-.bundle-card:hover .bundle-imgs{background:var(--sand)}
-.bundle-img{border-radius:8px;transition:transform .3s}
-.bundle-card:hover .bundle-img{transform:scale(1.05)}
-.bundle-btn{
-  border-radius:6px;transition:all .25s cubic-bezier(.4,0,.2,1);
-}
-.bundle-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(196,168,130,.3)}
+/* Powered by label */
+.lc-powered{text-align:center;padding:6px;font-size:9px;color:var(--clay);letter-spacing:.5px;background:var(--white);border-top:1px solid rgba(232,223,212,.3);flex-shrink:0}
 
-/* ── 8. CATEGORY CHIPS ── */
-.cat-chip{
-  border-radius:24px;font-weight:400;
-  transition:all .25s cubic-bezier(.4,0,.2,1);
+@media(max-width:480px){
+  .local-chat-panel{right:0;bottom:0;width:100vw;height:100vh;max-width:100vw;max-height:100vh;border-radius:0}
+  .chat-float-btn{bottom:16px;right:16px;width:50px;height:50px;font-size:20px}
 }
-.cat-chip:hover,.cat-chip.active{
-  transform:translateY(-1px);
-  box-shadow:0 4px 12px rgba(58,48,42,.1);
-}
-
-/* ── 9. SECTION TITLES ── */
-.section-title{font-size:17px;letter-spacing:3px}
-.section-title::before{
-  width:3px;height:18px;
-  background:linear-gradient(to bottom,var(--accent),var(--warm));
-  border-radius:2px;
-}
-.section-head{border-bottom:1px solid rgba(232,223,212,.6);padding-bottom:14px}
-.section-more{
-  transition:all .2s;padding:4px 12px;border-radius:12px;
-}
-.section-more:hover{background:var(--cream);color:var(--deep)}
-
-/* ── 10. COUNTDOWN ENHANCEMENT ── */
-.countdown-inner{
-  border-radius:10px;
-  background:linear-gradient(135deg,var(--deep) 0%,#4A3D35 50%,#3A302A 100%);
-  position:relative;overflow:hidden;
-}
-.countdown-inner::before{
-  content:'';position:absolute;top:-50%;right:-10%;width:200px;height:200px;
-  border-radius:50%;background:rgba(196,168,130,.06);pointer-events:none;
-}
-.countdown-num{
-  background:rgba(255,255,255,.12);
-  backdrop-filter:blur(4px);border-radius:6px;
-  border:1px solid rgba(255,255,255,.06);
-  font-variant-numeric:tabular-nums;
-}
-
-/* ── 11. REVIEW CARDS ── */
-.review-card{
-  border-radius:10px;padding:22px;
-  transition:all .3s cubic-bezier(.25,.8,.25,1);
-  position:relative;
-}
-.review-card:hover{
-  transform:translateY(-3px);
-  box-shadow:0 8px 24px rgba(58,48,42,.08);
-  border-color:var(--accent);
-}
-.review-card::before{
-  content:'"';position:absolute;top:10px;right:16px;
-  font-family:'Cormorant Garamond',serif;font-size:48px;
-  color:var(--sand);line-height:1;pointer-events:none;
-}
-.review-stars{letter-spacing:3px}
-
-/* ── 12. BRAND STORY ENHANCEMENT ── */
-.brand-inner{
-  border-radius:12px;
-  background:
-    radial-gradient(ellipse at 20% 80%, rgba(196,168,130,.04) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, rgba(232,213,192,.06) 0%, transparent 50%),
-    var(--white);
-  padding:64px 48px;
-}
-.brand-inner::after{
-  content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
-  width:1px;height:48px;background:linear-gradient(to top,transparent,var(--warm));
-}
-.brand-title{
-  background:linear-gradient(135deg,var(--deep),var(--earth));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-clip:text;
-}
-.brand-value{transition:transform .2s}
-.brand-value:hover{transform:translateY(-3px)}
-.brand-value-icon{transition:transform .3s}
-.brand-value:hover .brand-value-icon{transform:scale(1.2)}
-
-/* ── 13. GUARANTEE CARDS ── */
-.guarantee-card{
-  border-radius:10px;
-  transition:all .3s cubic-bezier(.25,.8,.25,1);
-  position:relative;overflow:hidden;
-}
-.guarantee-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:3px;
-  background:linear-gradient(90deg,var(--accent),var(--warm));
-  transform:scaleX(0);transition:transform .3s;transform-origin:left;
-}
-.guarantee-card:hover::before{transform:scaleX(1)}
-.guarantee-card:hover{
-  border-color:var(--accent);
-  box-shadow:0 8px 24px rgba(58,48,42,.06);
-  transform:translateY(-4px);
-}
-.guarantee-icon{transition:transform .3s}
-.guarantee-card:hover .guarantee-icon{transform:scale(1.15)}
-
-/* ── 14. FAQ ENHANCEMENT ── */
-.faq-item{border-radius:10px;transition:all .2s}
-.faq-item:hover{border-color:rgba(196,168,130,.5)}
-.faq-item.open{border-color:var(--accent);box-shadow:0 4px 16px rgba(58,48,42,.04)}
-.faq-q{padding:18px 22px;font-size:13.5px;transition:all .2s}
-.faq-q:hover{background:rgba(196,168,130,.04)}
-.faq-a-inner{padding:0 22px 18px;font-size:12.5px;line-height:2.1}
-
-/* ── 15. MEMBERSHIP CARDS ── */
-.member-card{border-radius:12px;transition:all .3s cubic-bezier(.25,.8,.25,1)}
-.member-card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 16px 40px rgba(58,48,42,.15);
-}
-.member-card::before{
-  content:'';position:absolute;inset:0;border-radius:12px;
-  background:linear-gradient(135deg,rgba(255,255,255,.08) 0%,transparent 50%);
-  pointer-events:none;
-}
-
-/* ── 16. MODAL ENHANCEMENT ── */
-.modal-overlay{transition:opacity .3s ease}
-.modal-box{
-  border-radius:14px;
-  animation:modalIn .35s cubic-bezier(.25,.8,.25,1);
-  box-shadow:0 32px 80px rgba(42,35,32,.25);
-}
-@keyframes modalIn{
-  from{opacity:0;transform:scale(.95) translateY(20px)}
-  to{opacity:1;transform:scale(1) translateY(0)}
-}
-.modal-close{
-  background:rgba(232,223,212,.5);
-  backdrop-filter:blur(4px);
-  transition:all .25s;
-}
-.modal-close:hover{background:rgba(232,223,212,.8);transform:rotate(90deg)}
-.modal-buy-btn{border-radius:8px;transition:all .25s cubic-bezier(.4,0,.2,1)}
-.modal-buy-primary:hover{
-  transform:translateY(-2px);
-  box-shadow:0 6px 16px rgba(196,168,130,.3);
-}
-.modal-buy-secondary:hover{
-  transform:translateY(-2px);
-  box-shadow:0 4px 12px rgba(58,48,42,.06);
-}
-
-/* ── 17. CART DRAWER ENHANCEMENT ── */
-.cart-icon-wrap{
-  border-radius:24px;transition:all .25s cubic-bezier(.4,0,.2,1);
-}
-.cart-icon-wrap:hover{
-  transform:translateY(-1px);
-  box-shadow:0 4px 12px rgba(196,168,130,.15);
-}
-.cart-badge{
-  background:linear-gradient(135deg,#C75C5C,#D4796A);
-  box-shadow:0 2px 6px rgba(199,92,92,.3);
-}
-.cart-drawer{border-radius:16px 0 0 16px;box-shadow:-12px 0 40px rgba(42,35,32,.18)}
-.cart-checkout-btn{
-  border-radius:10px;
-  transition:all .25s cubic-bezier(.4,0,.2,1);
-  background:linear-gradient(135deg,var(--deep),#4A3D35);
-}
-.cart-checkout-btn:hover:not(:disabled){
-  transform:translateY(-2px);
-  box-shadow:0 6px 20px rgba(58,48,42,.2);
-}
-.cart-item{border-radius:8px;transition:background .2s}
-.cart-item:hover{background:rgba(246,241,235,.5)}
-
-/* ── 18. WECHAT BAR ── */
-.wechat-bar{
-  border-radius:12px;
-  transition:all .3s cubic-bezier(.25,.8,.25,1);
-}
-.wechat-bar:hover{
-  border-color:var(--accent);
-  transform:translateY(-2px);
-  box-shadow:0 8px 24px rgba(58,48,42,.06);
-}
-.wechat-tag{transition:all .2s}
-.wechat-tag:hover{background:rgba(196,168,130,.18);border-color:var(--accent)}
-
-/* ── 19. LIVE SECTION ── */
-.live-wrapper{border-radius:12px}
-.live-phone-frame{
-  border-radius:24px;
-  box-shadow:0 12px 40px rgba(42,35,32,.22),inset 0 0 0 2px rgba(255,255,255,.06);
-}
-.live-btn{
-  border-radius:8px;
-  transition:all .25s cubic-bezier(.4,0,.2,1);
-}
-.live-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(196,168,130,.3)}
-
-/* ── 20. INFO CARDS ── */
-.info-card{
-  border-radius:10px;
-  transition:all .3s cubic-bezier(.25,.8,.25,1);
-}
-.info-card:hover{
-  border-color:var(--accent);
-  transform:translateY(-4px);
-  box-shadow:0 8px 24px rgba(58,48,42,.06);
-}
-.info-icon{transition:transform .3s}
-.info-card:hover .info-icon{transform:scale(1.15)}
-
-/* ── 21. SHOPPING GUIDE ── */
-.shop-guide-step{border-radius:10px;transition:all .3s cubic-bezier(.25,.8,.25,1)}
-.shop-guide-step:hover{
-  transform:translateY(-4px);
-  box-shadow:0 8px 24px rgba(58,48,42,.06);
-  border-color:var(--accent);
-}
-
-/* ── 22. FOOTER ENHANCEMENT ── */
-.store-footer{border-top:none;position:relative}
-.store-footer::before{
-  content:'';display:block;width:80px;height:1px;margin:0 auto 36px;
-  background:linear-gradient(90deg,transparent,var(--warm),transparent);
-}
-.footer-brand{
-  background:linear-gradient(135deg,var(--deep),var(--earth));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-clip:text;
-}
-.footer-col a{
-  transition:all .2s;padding:2px 0;border-radius:2px;
-}
-.footer-col a:hover{color:var(--accent);padding-left:6px}
-.footer-bottom{
-  background:var(--white);
-  border-top:1px solid rgba(232,223,212,.5);
-  padding:24px;
-}
-
-/* ── 23. SCROLL TOP BUTTON ── */
-.scroll-top{
-  border-radius:14px;
-  background:linear-gradient(135deg,var(--deep),#4A3D35);
-  box-shadow:0 4px 20px rgba(58,48,42,.2);
-  width:46px;height:46px;
-}
-.scroll-top:hover{
-  background:linear-gradient(135deg,var(--accent),#D4B896);
-  transform:translateY(-3px) scale(1.05);
-  box-shadow:0 8px 24px rgba(196,168,130,.3);
-}
-
-/* ── 24. GUIDE CARDS ── */
-.guide-card{border-radius:10px;transition:all .3s cubic-bezier(.25,.8,.25,1)}
-.guide-card:hover{
-  transform:translateY(-3px);
-  box-shadow:0 8px 24px rgba(58,48,42,.06);
-  border-color:var(--accent);
-}
-
-/* ── 25. SELECTION & SCROLLBAR ── */
-::selection{background:rgba(196,168,130,.25);color:var(--deep)}
-::-webkit-scrollbar{width:6px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--warm);border-radius:3px}
-::-webkit-scrollbar-thumb:hover{background:var(--clay)}
-
-/* ── 26. ENHANCED MOBILE RESPONSIVE ── */
-@media(max-width:768px){
-  .store-header-inner{padding:16px 16px}
-  .store-avatar{width:56px;height:56px}
-  .store-avatar-text{font-size:18px;letter-spacing:2px}
-  .store-name h1{font-size:17px;letter-spacing:2px}
-  .store-meta{gap:12px;flex-wrap:wrap}
-  .store-meta span{font-size:11px}
-  .store-actions{gap:6px}
-  .btn-follow,.btn-outline{padding:7px 16px;font-size:11px}
-
-  .store-nav-inner{padding:0 8px;overflow-x:auto;-webkit-overflow-scrolling:touch}
-  .nav-tab{padding:12px 14px;font-size:12px;white-space:nowrap;flex-shrink:0}
-
-  .banner{padding:0 16px;margin-top:12px;gap:10px}
-  .banner-main{border-radius:10px;aspect-ratio:2/1}
-  .banner-text h2{font-size:18px;letter-spacing:3px}
-  .banner-text p{font-size:11px;letter-spacing:2px}
-  .banner-text .banner-btn{padding:8px 24px;font-size:10px}
-  .banner-small{border-radius:10px}
-  .banner-small h3{font-size:12px}
-
-  .coupon-bar{padding:0 16px}
-  .coupon-inner{padding:12px 14px;gap:10px;border-radius:10px}
-  .coupon-amount{padding:8px 12px;min-width:60px}
-  .coupon-amount b{font-size:16px}
-
-  .cat-bar{padding:0 16px}
-  .cat-chip{padding:7px 16px;font-size:11px}
-
-  .grid{grid-template-columns:repeat(2,1fr);gap:10px}
-  .card{border-radius:8px}
-  .card-img{border-radius:8px 8px 0 0}
-  .card-body{padding:10px 12px 14px}
-  .card-name{font-size:12px;min-height:36px;line-height:1.5;margin-bottom:6px}
-  .card-promo{font-size:10px;padding:2px 6px}
-  .card-price b{font-size:17px}
-  .card-price del{font-size:10px}
-  .card-sales{font-size:10px}
-  .card-ship{font-size:9px;gap:4px}
-  .card-ship span{padding:1px 6px}
-
-  .bundle-grid{grid-template-columns:1fr}
-  .bundle-card{border-radius:10px}
-  .bundle-info{padding:14px 16px 18px}
-  .bundle-name{font-size:14px}
-
-  .info-grid{grid-template-columns:repeat(2,1fr);gap:10px}
-  .info-card{padding:18px 14px;border-radius:8px}
-  .info-icon{font-size:24px;margin-bottom:8px}
-  .info-title{font-size:12px}
-  .info-desc{font-size:10px}
-
-  .review-strip{padding-left:16px;gap:10px}
-  .review-card{width:240px;padding:16px;border-radius:8px}
-  .review-card::before{font-size:36px}
-  .review-text{font-size:11px}
-
-  .live-wrapper{border-radius:10px}
-  .live-side{padding:20px 16px}
-  .live-title{font-size:16px}
-  .live-desc{font-size:12px;line-height:2}
-  .live-btns{flex-direction:column}
-  .live-btn,.live-btn-outline{width:100%;text-align:center}
-  .live-features{grid-template-columns:repeat(2,1fr)}
-  .live-feature{padding:10px}
-  .live-feature-icon{font-size:16px}
-  .live-feature-text{font-size:10px}
-
-  .wechat-bar{padding:18px 16px;border-radius:10px}
-  .wechat-qr{width:64px;height:64px}
-
-  .brand-inner{padding:36px 20px;border-radius:10px}
-  .brand-title{font-size:20px;letter-spacing:4px}
-  .brand-tagline{font-size:12px;letter-spacing:2px}
-  .brand-text{font-size:12.5px;line-height:2.2}
-  .brand-values{gap:16px;flex-wrap:wrap}
-  .brand-value-text{font-size:10px;letter-spacing:1px}
-
-  .guarantee-grid{grid-template-columns:1fr 1fr;gap:10px}
-  .guarantee-card{padding:18px 14px;border-radius:8px}
-  .guarantee-icon{font-size:26px;margin-bottom:8px}
-  .guarantee-title{font-size:13px}
-  .guarantee-desc{font-size:11px}
-
-  .faq-item{border-radius:8px}
-  .faq-q{padding:14px 16px;font-size:13px}
-  .faq-a-inner{padding:0 16px 14px;font-size:12px}
-
-  .member-grid{grid-template-columns:1fr;gap:10px}
-  .member-card{padding:22px 20px;border-radius:10px}
-
-  .guide-grid{grid-template-columns:1fr;gap:10px}
-  .guide-card{padding:18px;border-radius:8px}
-
-  .shop-guide-grid{grid-template-columns:1fr 1fr;gap:10px}
-  .shop-guide-step{padding:20px 14px;border-radius:8px}
-  .shop-guide-icon{font-size:26px;margin-bottom:10px}
-  .shop-guide-title{font-size:13px}
-  .shop-guide-desc{font-size:11px}
-
-  .section-block{padding:0 16px;margin:18px auto}
-  .section-title{font-size:15px;letter-spacing:2px}
-  .section-head{padding-bottom:10px;margin-bottom:14px}
-
-  .modal-box{border-radius:12px;width:96%}
-  .modal-info{padding:20px 16px}
-  .modal-title{font-size:15px}
-  .modal-price-row .now{font-size:24px}
-  .modal-buy-btn{padding:10px;font-size:13px}
-
-  .cart-drawer{width:92vw;border-radius:14px 0 0 14px}
-  .cart-drawer-header{padding:16px 18px}
-  .cart-items{padding:12px 18px}
-
-  .store-footer{padding:24px 16px}
-  .footer-grid{grid-template-columns:1fr;gap:24px;text-align:center}
-  .footer-col{text-align:center}
-
-  .countdown-inner{border-radius:8px;padding:12px 16px}
-  .countdown-num{padding:5px 8px;font-size:14px;min-width:30px;border-radius:4px}
-
-  .scroll-top{bottom:76px;left:14px;width:40px;height:40px;border-radius:12px}
-
-  /* Disable heavy hover effects on mobile */
-  .card:hover{transform:none;box-shadow:none}
-  .card:active{transform:scale(.98);transition:transform .1s}
-  .bundle-card:hover{transform:none;box-shadow:none}
-  .bundle-card:active{transform:scale(.98)}
-  .guarantee-card:hover{transform:none;box-shadow:none}
-  .info-card:hover{transform:none;box-shadow:none}
-}
-
-/* ── Extra small screens ── */
-@media(max-width:380px){
-  .grid{grid-template-columns:1fr}
-  .store-header-inner{flex-direction:column;align-items:flex-start}
-  .store-actions{justify-content:flex-start}
-  .guarantee-grid{grid-template-columns:1fr}
-  .info-grid{grid-template-columns:1fr}
-  .shop-guide-grid{grid-template-columns:1fr}
-  .banner-side{flex-direction:column}
-}
-
 </style>
 
-<button class="coze-float-btn" id="cozeFBtn" onclick="openCozeChat()">💬</button>
-<div class="coze-chat-frame" id="cozeCF">
-  <button class="x-btn" onclick="toggleCozeFrame()">✕</button>
-  <iframe id="cozeIF" src="" allow="microphone"></iframe>
+<!-- Local Chat Widget — Optimized -->
+<button class="chat-float-btn" id="chatFloatBtn" onclick="toggleLocalChat()">
+  💬
+  <span class="chat-pulse"></span>
+  <span class="chat-unread" id="chatUnread">1</span>
+</button>
+<div class="local-chat-panel" id="localChatPanel">
+  <div class="lc-header">
+    <div class="lc-header-left">
+      <span class="lc-avatar">序</span>
+      <div class="lc-header-info">
+        <div class="lc-header-name">归序客服 · 小序</div>
+        <div class="lc-header-status">在线 · 平均响应 &lt;1s</div>
+      </div>
+    </div>
+    <button class="lc-close" onclick="toggleLocalChat()">✕</button>
+  </div>
+  <div class="lc-body" id="lcBody">
+    <div class="lc-date-divider" id="lcDateDiv"></div>
+  </div>
+  <div class="lc-footer">
+    <input type="text" id="lcInput" placeholder="输入问题，按回车发送..." onkeydown="if(event.key==='Enter')sendLocalMsg()">
+    <button class="lc-send" onclick="sendLocalMsg()">发送</button>
+  </div>
+  <div class="lc-powered">本地智能客服 · 无需联网 · 隐私安全</div>
 </div>
 
 <script>
+// ── OPTIMIZED LOCAL CHAT ENGINE v2 ──
 (function(){
-  var BOT_ID = '7625158451891191851';
-  var TOKEN  = 'pat_nlhkSMEFZ8jq7bagCoVE0vmFoUB7SGEAHeI9e7ogkS2TqR4M81SxceTaoscR8g9V';
-  var sdkOK  = false;
-  var client = null;
-  var frameOpen = false;
+  var chatOpen = false;
+  var msgCount = 0;
+  var lastTopic = '';
+  var hasInteracted = false;
 
-  // Coze 官方 SDK CDN
-  var URLS = [
-    'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js'
+  // ── Utilities ──
+  function fmtTime(){var d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
+  function fmtDate(){var d=new Date(),w=['日','一','二','三','四','五','六'];return(d.getMonth()+1)+'月'+d.getDate()+'日 周'+w[d.getDay()]}
+  function getGreeting(){var h=new Date().getHours();if(h<6)return'夜深了，';if(h<11)return'早上好！';if(h<14)return'中午好！';if(h<18)return'下午好！';return'晚上好！'}
+  function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+  // ── Product data bridge (from page) ──
+  function getProducts(){return typeof products!=='undefined'?products:[]}
+  function getIMG(){return typeof IMG!=='undefined'?IMG:{}}
+
+  // ── Knowledge Base with scoring weights + follow-ups + product refs ──
+  var KB = [
+    // ── 物流相关 ──
+    {k:['发货','多久发','几天发','什么时候发','发货时间','发货时效','多长时间','快递','物流','到货'],w:2,
+     a:'下单后 <b>24-48小时内</b> 由供应商发出，使用菜鸟/中通等主流快递。全国范围内一般 <b>3-5个工作日</b> 送达，偏远地区可能延长1-2天。\n\n发货后您会收到物流单号，可随时在"我的订单"中追踪 📦',
+     follow:['运费多少','可以催发货吗','能发顺丰吗'],topic:'logistics'},
+    {k:['催发货','加急','快点发','着急'],w:3,
+     a:'理解您着急的心情！下单后我们会优先安排发货。如超过48小时未发出，您可以联系人工客服加急处理 📞 15388120643\n\n大促期间可能略有延迟，感谢理解 🙏',
+     follow:['发货时效','联系人工'],topic:'logistics'},
+    {k:['顺丰','指定快递','换快递'],w:3,
+     a:'目前默认使用菜鸟/中通快递（免运费）。如需指定顺丰等其他快递，请下单时备注说明，差价部分需补邮费。具体费用可咨询人工客服确认 📮',
+     follow:['运费多少','联系人工'],topic:'logistics'},
+    {k:['包邮','运费','邮费','偏远','新疆','西藏','内蒙'],w:2,
+     a:'<b>全场包邮！</b>覆盖全国大部分地区 🎉\n\n港澳台及部分偏远地区（新疆、西藏偏远乡镇等）可能需补差价，下单前可先咨询客服确认。所有商品均已投保运费险，退换货包运费无忧！',
+     follow:['退换货政策','发货时效'],topic:'logistics'},
+
+    // ── 退换货 ──
+    {k:['退货','退换','退款','换货','退换货','七天','7天','不满意','退货政策','不喜欢','有问题'],w:2,
+     a:'我们支持 <b>7天无理由退换货</b>：\n\n• 收到商品7天内，保持商品完好\n• 通过订单页面申请，<b>48小时内</b>审核\n• 已开通<b>运费险</b>，退货运费保险承担\n\n如商品有质量问题，我们承担来回运费并优先处理 ✅',
+     follow:['退货流程怎么操作','运费险怎么用','质量问题找谁'],topic:'return'},
+    {k:['退货流程','怎么退','退货操作','申请退货','怎么申请'],w:3,
+     a:'退货步骤很简单：\n\n<b>①</b> 打开淘宝 →"我的订单"→ 找到对应订单\n<b>②</b> 点击"申请退款/退货"\n<b>③</b> 选择退货原因，提交申请\n<b>④</b> 审核通过后按提示寄回商品\n\n运费险会自动赔付退货邮费，无需您额外操作 📋',
+     follow:['多久能收到退款','运费多少'],topic:'return'},
+    {k:['退款多久','多久到账','几天退款'],w:3,
+     a:'退货商品签收后，一般 <b>1-3个工作日</b> 内完成退款。退款将原路返回到您的支付账户。如超过3天未到账，请联系人工客服查询 💰',
+     follow:['联系人工','退货流程怎么操作'],topic:'return'},
+
+    // ── 优惠 ──
+    {k:['优惠券','券','领券','满减','折扣','打折','便宜','优惠','促销','活动'],w:2,
+     a:'当前店铺优惠汇总 🎉\n\n<b>优惠券：</b>\n• 满39减5 · 满79减10 · 满149减20\n（页面顶部"领取"按钮一键领取）\n\n<b>叠加优惠：</b>\n• 部分商品拍2件享<b>9折</b>\n• 组合套装比单买省¥15-20\n• 限时倒计时特惠进行中！\n\n多种优惠可叠加使用哦！',
+     follow:['有什么套装推荐','会员还能折上折吗','优惠券怎么用'],topic:'promo'},
+    {k:['优惠券怎么用','券怎么用','怎么抵扣','自动抵扣'],w:3,
+     a:'优惠券使用方法：\n\n<b>①</b> 先在页面上方点击"领取"按钮\n<b>②</b> 选好商品加入购物车\n<b>③</b> 结算时系统<b>自动勾选</b>可用优惠券\n\n注意：满149减20的券仅限组合套装使用。券有效期至 2026-07-31，记得尽早使用 ⏰',
+     follow:['有什么套装推荐','满减可以叠加吗'],topic:'promo'},
+
+    // ── 材质 & 品质 ──
+    {k:['材质','安全','环保','有毒','味道','异味','质量','品质','有味','塑料','可靠'],w:2,
+     a:'品质是我们最重视的 ✅\n\n• <b>PP材质</b>：通过食品级检测，安全无毒\n• <b>不锈钢</b>：304食品级，防锈耐腐蚀\n• <b>布类材质</b>：通过OEKO-TEX®认证\n• <b>亚克力</b>：进口光学级，通透耐用\n\n新品到手如有轻微气味属正常现象，通风1-2天即可消散。',
+     follow:['具体某款材质','有质保期吗'],topic:'quality'},
+    {k:['质保','保修','坏了','保质期','能用多久','耐用'],w:3,
+     a:'所有商品享受 <b>1年品质保障</b>：非人为损坏可免费换新。正常使用寿命一般在3-5年以上。\n\n如收到有瑕疵的商品，请在48小时内拍照联系客服，我们优先补发或退款处理 🛡️',
+     follow:['退换货政策','联系人工'],topic:'quality'},
+
+    // ── 人工客服 ──
+    {k:['人工','客服电话','电话','打电话','真人','转人工','联系','在线客服','找人'],w:2,
+     a:'人工客服联系方式：\n\n📞 <b>电话：15388120643</b>\n⏰ 工作时间：每天 9:00-22:00\n💬 微信：扫描页面底部二维码添加\n\n非工作时间留言，我们次日优先回复。紧急问题建议直接致电 📱',
+     follow:['微信怎么加','你能处理什么问题'],topic:'service'},
+
+    // ── 会员 ──
+    {k:['会员','积分','等级','银卡','金卡','黑卡','VIP','会员权益','怎么升级'],w:2,
+     a:'归序会员体系（自动升级）：\n\n🥈 <b>银卡</b> 满¥200 → 全场9.5折 + 生日券\n🥇 <b>金卡</b> 满¥500 → 全场9折 + 新品优先\n🖤 <b>黑卡</b> 满¥1000 → 全场8.5折 + 限定款 + 全年免费退换\n\n消费 1元 = 1积分，100积分抵¥1。积分可在结算时直接使用！',
+     follow:['优惠券能叠加吗','怎么查积分'],topic:'member'},
+
+    // ── 发票 ──
+    {k:['发票','开票','票','报销','增值税'],w:2,
+     a:'可以开具 <b>电子普通发票</b> 📝\n\n下单时在备注中注明：\n• 发票抬头（个人/公司名称）\n• 税号（公司抬头需要）\n• 接收邮箱\n\n发货后 <b>3个工作日内</b> 发送至邮箱。如需增值税专用发票，请联系人工客服。',
+     follow:['联系人工','发货时效'],topic:'invoice'},
+
+    // ── 组合套装 ──
+    {k:['组合','套装','搭配','拆分','能不能单买','哪个划算'],w:2,
+     a:'目前共3款超值组合套装：\n\n📚 <b>书房焕新套装</b> ¥89.9（省¥15.8）\n🛏️ <b>卧室整理三件套</b> ¥139.9（省¥21.8）\n🧳 <b>出行必备两件套</b> ¥65.9（省¥9.9）\n\n套装不支持拆分单买，但比单品购买划算很多！也可单品分别选购。',
+     follow:['书房套装有什么','出行套装推荐','优惠券能用吗'],topic:'bundle',productIds:[1,6,8]},
+
+    // ── 直播 ──
+    {k:['直播','主播','几点播','预约','数字人'],w:2,
+     a:'归序AI数字人直播间 🎬\n\n⏰ <b>每晚 20:00-22:00</b> 准时开播\n\n• AI主播实时讲解产品亮点\n• 直播专属折扣价\n• 不定时掉落限量优惠券\n• 整点抽免单机会！\n\n点击页面"预约直播"按钮开启提醒 🔔',
+     follow:['优惠券怎么领','有什么热销款'],topic:'live'},
+
+    // ── 微信私域 ──
+    {k:['微信','加好友','私域','群','二维码','小程序'],w:2,
+     a:'加归序微信，解锁专属福利 💬\n\n• ¥5无门槛券（加好友即送）\n• 每周新品抢先看\n• 老客专属折扣通知\n• 收纳灵感分享群\n\n扫描页面底部二维码即可添加！',
+     follow:['会员权益','有什么新品'],topic:'wechat'},
+
+    // ── 尺寸规格 ──
+    {k:['尺寸','大小','规格','多大','多长','多宽','多高','放得下','够不够','容量'],w:2,
+     a:'每款商品详情页都有精确尺寸标注 📐\n\n可以点击任意商品卡片，弹窗中"规格参数"区域有完整信息。\n\n如果您告诉我具体想了解哪款产品，我也可以直接帮您查看！',
+     follow:['桌面收纳盒多大','旅行套装规格'],topic:'spec'},
+
+    // ── 商品推荐：桌面 ──
+    {k:['桌面','收纳盒','书桌','办公','文具','笔筒','整理桌面'],w:2,
+     a:'桌面收纳推荐 🗂️\n\n为您精选了最受欢迎的桌面好物：',
+     follow:['有套装更划算吗','数据线怎么收纳'],topic:'desk',productIds:[1,6,8]},
+
+    // ── 商品推荐：旅行 ──
+    {k:['旅行','出差','分装','便携','出门','行李'],w:2,
+     a:'旅行收纳推荐 🧳\n\n出差旅行必备好物，轻松打包：',
+     follow:['有组合套装吗','防漏吗'],topic:'travel',productIds:[3,10]},
+
+    // ── 商品推荐：化妆 ──
+    {k:['化妆','梳妆','口红','首饰','化妆品','项链','耳环','戒指'],w:2,
+     a:'梳妆台收纳推荐 💄\n\n让化妆台告别凌乱：',
+     follow:['有套装更划算吗','材质安全吗'],topic:'beauty',productIds:[2,9]},
+
+    // ── 商品推荐：厨房 ──
+    {k:['厨房','调料','冰箱','置物架','厨房收纳'],w:2,
+     a:'厨房收纳推荐 🍳\n\n让厨房台面瞬间清爽：',
+     follow:['不锈钢会生锈吗','承重多少'],topic:'kitchen',productIds:[5,11]},
+
+    // ── 商品推荐：卧室 ──
+    {k:['卧室','床头','衣柜','换季','被子','衣服收纳'],w:2,
+     a:'卧室收纳推荐 🛏️\n\n打造整洁温馨的休息空间：',
+     follow:['衣柜收纳格多大','有套装吗'],topic:'bedroom',productIds:[7,4]},
+
+    // ── 商品推荐：鞋柜 ──
+    {k:['鞋','鞋柜','鞋架','鞋子'],w:2,
+     a:'鞋柜扩容推荐 👟\n\n一双变三双的省空间神器：',
+     follow:['能叠几层','承重怎么样'],topic:'shoes',productIds:[12]},
+
+    // ── 热销推荐 ──
+    {k:['推荐','热销','最火','什么好','买什么','畅销','排行','哪个好','选择困难'],w:1,
+     a:'归序热销 TOP 3 🔥\n\n为您推荐最受欢迎的产品：',
+     follow:['有什么套装','新品有哪些','优惠券怎么领'],topic:'hot',productIds:[8,3,1]},
+
+    // ── 新品 ──
+    {k:['新品','上新','最新','刚出','本周新'],w:2,
+     a:'本周新品上架 ✨\n\n三款新品尝鲜价进行中：',
+     follow:['新品有优惠吗','材质怎么样'],topic:'new',productIds:[7,9,11]},
+
+    // ── 寒暄 ──
+    {k:['你好','hi','hello','嗨','在吗','在不在','你在吗'],w:1,
+     a:getGreeting()+'欢迎来到「归序 ORDERA」旗舰店 😊\n\n我是客服小序，可以帮您：查商品、看优惠、了解物流、处理售后。\n\n请问有什么可以帮您？',
+     follow:['有什么热销款','今天有什么优惠','发货多久到'],topic:'greet'},
+    {k:['谢谢','感谢','多谢','thanks','好的','明白','知道了','懂了','了解'],w:1,
+     a:'不客气！很高兴能帮到您 😊\n\n如还有其他问题随时问我。祝您购物愉快，生活有序！',
+     follow:['还想看看商品','联系人工客服'],topic:'thanks'},
+    {k:['你是谁','你是ai','你是机器人','智能客服','真人吗','是人吗'],w:3,
+     a:'我是归序智能客服「小序」，一个运行在您浏览器里的本地助手 🤖\n\n我不需要联网，不收集隐私数据，能秒回常见问题。\n\n遇到复杂问题，建议联系人工客服获得更专业的服务 📞 15388120643',
+     follow:['联系人工','你能处理什么问题'],topic:'about'},
+    {k:['能做什么','你能做什么','你能处理','什么问题','你会什么','功能'],w:3,
+     a:'我可以帮您解答以下问题 📋\n\n• 🛍️ <b>商品推荐</b>：按场景/品类推荐\n• 💰 <b>优惠信息</b>：优惠券、满减、套装\n• 📦 <b>物流查询</b>：发货时效、快递方式\n• ↩️ <b>售后服务</b>：退换货、质保\n• 👤 <b>会员积分</b>：等级、权益\n• 🧾 <b>发票开具</b>：电子发票\n\n直接输入关键词就能得到答案！',
+     follow:['看看热销商品','今天有什么优惠'],topic:'ability'},
+    // ── 价格相关 ──
+    {k:['多少钱','价格','价钱','什么价','贵不贵','值不值'],w:1,
+     a:'我们的产品价格区间：<b>¥25.9 - ¥69.9</b>\n\n最受欢迎的价位在 ¥35-50 之间。组合套装比单买更划算，还有满减优惠券可叠加使用！\n\n告诉我您想了解哪个品类，我帮您推荐最合适的 💡',
+     follow:['看看热销商品','有什么优惠'],topic:'price'},
+    // ── 支付 ──
+    {k:['支付','付款','怎么买','怎么付','微信支付','支付宝','花呗'],w:2,
+     a:'支持淘宝平台全部支付方式：支付宝、微信支付、花呗、信用卡等。\n\n花呗支持3期免息（部分商品），结算时可选择分期方式 💳',
+     follow:['有什么优惠券','发货时效'],topic:'payment'},
   ];
 
-  function boot() {
-    if (typeof CozeWebSDK === 'undefined') return;
-    try {
-      client = new CozeWebSDK.WebChatClient({
-        config: {
-          bot_id: BOT_ID,
-        },
-        componentProps: {
-          title: '归序AI客服 · 小序',
-        },
-        auth: {
-          type: 'token',
-          token: TOKEN,
-          onRefreshToken: function() { return TOKEN; }
-        }
-      });
-      sdkOK = true;
-      var fb = document.getElementById('cozeFBtn');
-      if(fb) fb.classList.add('sdk-ready');
-      console.log('[Coze] SDK OK!');
-    } catch(e){ console.error('[Coze] SDK init error:', e); }
-  }
+  var FALLBACK = '抱歉，这个问题我暂时无法精确回答 🤔\n\n您可以试试：\n• 用更简短的关键词提问（如"退货""优惠""发货"）\n• 查看页面下方"常见问题"区域\n• 联系人工客服 📞 <b>15388120643</b>（9:00-22:00）';
+  var FALLBACK_FOLLOWS = ['看看热销商品','退换货政策','联系人工客服','优惠券怎么领'];
 
-  function load(i) {
-    if(i >= URLS.length){ console.warn('[Coze] All SDK URLs failed, iframe mode active'); return; }
-    var s = document.createElement('script');
-    s.src = URLS[i];
-    s.onload = function(){ console.log('[Coze] Loaded:', URLS[i]); boot(); };
-    s.onerror = function(){ console.warn('[Coze] Failed:', URLS[i]); load(i+1); };
-    document.head.appendChild(s);
-  }
-  load(0);
-
-  // Global open function
-  window.openCozeChat = function() {
-    if(sdkOK && client){
-      var ms = ['showChatBot','open','show','toggle'];
-      for(var i=0;i<ms.length;i++){
-        if(typeof client[ms[i]]==='function'){ client[ms[i]](); return; }
-      }
-      // Try clicking SDK-generated elements
-      var all = document.querySelectorAll('*');
-      for(var j=all.length-1;j>=0;j--){
-        var el=all[j];
-        var cn=(el.className||'').toString();
-        if(el.id==='cozeFBtn'||el.id==='cozeCF') continue;
-        if((cn.indexOf('coze')>-1||cn.indexOf('Coze')>-1||(el.id||'').indexOf('coze')>-1) && getComputedStyle(el).position==='fixed'){
-          el.click(); return;
+  // ── Score-based matching engine ──
+  function matchAnswer(text){
+    text = text.toLowerCase().replace(/[？?！!。，,.、\s]/g,'');
+    if(text.length < 1) return {a:FALLBACK,follow:FALLBACK_FOLLOWS,topic:'',productIds:[]};
+    var best = null, bestScore = 0;
+    for(var i=0;i<KB.length;i++){
+      var score = 0;
+      for(var j=0;j<KB[i].k.length;j++){
+        if(text.indexOf(KB[i].k[j]) > -1){
+          score += (KB[i].w||1) * KB[i].k[j].length;
         }
       }
+      // Boost if matches last topic context
+      if(score > 0 && lastTopic && KB[i].topic === lastTopic) score += 1;
+      if(score > bestScore){ bestScore = score; best = KB[i]; }
     }
-    // Fallback: iframe
-    toggleCozeFrame();
+    if(best && bestScore > 0){
+      lastTopic = best.topic || '';
+      return {a:best.a, follow:best.follow||[], topic:best.topic||'', productIds:best.productIds||[]};
+    }
+    return {a:FALLBACK, follow:FALLBACK_FOLLOWS, topic:'', productIds:[]};
+  }
+
+  // ── Render product cards ──
+  function renderProductCards(ids){
+    var prods = getProducts(), imgs = getIMG();
+    if(!prods.length) return '';
+    var html = '';
+    ids.forEach(function(id){
+      var p = prods.find(function(x){return x.id===id});
+      if(!p) return;
+      var src = imgs[id] || '';
+      html += '<div class="lc-product-card" onclick="openModal('+p.id+')">'
+        + (src ? '<img src="'+src+'" alt="'+escHtml(p.name)+'">' : '')
+        + '<div class="lc-product-card-info">'
+        + '<div class="lc-product-card-name">'+escHtml(p.name)+'</div>'
+        + '<div class="lc-product-card-price">¥'+p.price+' <del>¥'+p.orig+'</del></div>'
+        + '</div></div>';
+    });
+    return html;
+  }
+
+  // ── DOM operations ──
+  function appendMsg(who, html, followUps, productIds, showRating){
+    var body = document.getElementById('lcBody');
+    var div = document.createElement('div');
+    div.className = 'lc-msg ' + who;
+    var inner = '<div class="lc-bubble">' + html + '</div>';
+    // Product cards
+    if(productIds && productIds.length){
+      inner += renderProductCards(productIds);
+    }
+    // Follow-up buttons
+    if(followUps && followUps.length){
+      inner += '<div class="lc-followup">';
+      followUps.forEach(function(f){
+        inner += '<button onclick="quickAsk(this)">'+escHtml(f)+'</button>';
+      });
+      inner += '</div>';
+    }
+    // Satisfaction rating for bot messages
+    if(showRating && who==='bot'){
+      inner += '<div class="lc-rating" id="lcRating'+msgCount+'">';
+      for(var i=1;i<=5;i++){
+        inner += '<button onclick="rateAnswer(this,'+i+')" data-score="'+i+'">★</button>';
+      }
+      inner += '<span class="lc-rating-label"></span></div>';
+    }
+    inner += '<div class="lc-time">'+fmtTime()+'</div>';
+    div.innerHTML = inner;
+    body.appendChild(div);
+    requestAnimationFrame(function(){body.scrollTop = body.scrollHeight});
+    msgCount++;
+  }
+
+  function showTyping(){
+    var body = document.getElementById('lcBody');
+    var div = document.createElement('div');
+    div.className = 'lc-msg bot';
+    div.id = 'lcTyping';
+    div.innerHTML = '<div class="lc-bubble"><div class="lc-typing"><span></span><span></span><span></span></div></div>';
+    body.appendChild(div);
+    requestAnimationFrame(function(){body.scrollTop = body.scrollHeight});
+  }
+  function removeTyping(){var el=document.getElementById('lcTyping');if(el)el.remove()}
+
+  // ── Initialize ──
+  function init(){
+    document.getElementById('lcDateDiv').textContent = fmtDate();
+    // Welcome message with time-based greeting
+    var greeting = getGreeting()+'欢迎来到「归序 ORDERA」旗舰店！我是客服小序 😊\n有什么可以帮您的？';
+    appendMsg('bot', greeting.replace(/\n/g,'<br>'), null, null, false);
+    // Quick buttons
+    var wrap = document.createElement('div');
+    wrap.className = 'lc-quick-wrap';
+    wrap.id = 'lcQuickWrap';
+    wrap.innerHTML = '<div class="lc-quick-title">猜你想问：</div>'
+      + '<button class="lc-quick" onclick="quickAsk(this)">🔥 热销推荐</button>'
+      + '<button class="lc-quick" onclick="quickAsk(this)">🎉 今日优惠</button>'
+      + '<button class="lc-quick" onclick="quickAsk(this)">📦 发货时效</button>'
+      + '<button class="lc-quick" onclick="quickAsk(this)">↩️ 退换货</button>'
+      + '<button class="lc-quick" onclick="quickAsk(this)">👤 会员权益</button>'
+      + '<button class="lc-quick" onclick="quickAsk(this)">📞 人工客服</button>';
+    document.getElementById('lcBody').appendChild(wrap);
+    // Show unread dot after 2s if not opened
+    setTimeout(function(){
+      if(!chatOpen){
+        var badge = document.getElementById('chatUnread');
+        if(badge) badge.style.display = 'flex';
+      }
+    }, 2000);
+  }
+  init();
+
+  // ── Global functions ──
+  window.toggleLocalChat = function(){
+    chatOpen = !chatOpen;
+    document.getElementById('localChatPanel').classList.toggle('open', chatOpen);
+    document.getElementById('chatFloatBtn').classList.toggle('hide', chatOpen);
+    // Hide unread badge
+    var badge = document.getElementById('chatUnread');
+    if(badge) badge.style.display = 'none';
+    if(chatOpen){
+      setTimeout(function(){ document.getElementById('lcInput').focus(); }, 300);
+    }
+  };
+  window.openCozeChat = function(){ window.toggleLocalChat(); };
+
+  window.sendLocalMsg = function(){
+    var input = document.getElementById('lcInput');
+    var text = input.value.trim();
+    if(!text) return;
+    input.value = '';
+    hasInteracted = true;
+    // Hide initial quick buttons
+    var qw = document.getElementById('lcQuickWrap');
+    if(qw) qw.remove();
+    // Remove previous follow-up buttons
+    document.querySelectorAll('.lc-followup').forEach(function(el){el.remove()});
+    appendMsg('user', escHtml(text));
+    showTyping();
+    var result = matchAnswer(text);
+    var delay = 500 + Math.min(result.a.length * 5, 1000);
+    setTimeout(function(){
+      removeTyping();
+      appendMsg('bot', result.a.replace(/\n/g,'<br>'), result.follow, result.productIds, true);
+    }, delay);
   };
 
-  window.toggleCozeFrame = function() {
-    var cf = document.getElementById('cozeCF');
-    var ifr = document.getElementById('cozeIF');
-    if(!cf) return;
-    frameOpen = !frameOpen;
-    if(frameOpen){
-      if(!ifr.src || ifr.src===location.href) ifr.src='https://www.coze.cn/store/bot/'+BOT_ID;
-      cf.classList.add('open');
-    } else {
-      cf.classList.remove('open');
-    }
+  window.quickAsk = function(btn){
+    var text = btn.textContent.replace(/^[^\u4e00-\u9fa5a-zA-Z]*/, '').trim();
+    document.getElementById('lcInput').value = text;
+    window.sendLocalMsg();
+  };
+
+  window.rateAnswer = function(btn, score){
+    var wrap = btn.parentElement;
+    if(wrap.classList.contains('rated')) return;
+    wrap.classList.add('rated');
+    var btns = wrap.querySelectorAll('button');
+    btns.forEach(function(b){
+      var s = parseInt(b.getAttribute('data-score'));
+      if(s <= score) b.classList.add('active');
+      b.style.cursor = 'default';
+    });
+    var label = wrap.querySelector('.lc-rating-label');
+    var labels = ['','还需改进','一般般','还不错','很满意','非常棒！'];
+    if(label) label.textContent = labels[score] || '';
   };
 })();
 </script>
